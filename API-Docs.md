@@ -11,13 +11,13 @@
 
 All endpoints that require a current user to be logged in
 
-*Request
-*Response (Error)
-*Status Code: 401
-*Headers: 
-   * Content-Type: application/json
+* Request
+* Response (Error):
+    * Status Code: 401
+    * Headers: 
+        * Content-Type: application/json
 
-*Body:
+    * Body:
 ```json
 {
     "message": "Authentication required",
