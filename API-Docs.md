@@ -1,23 +1,23 @@
-## AirBnB Clone
+# AirBnB Clone
 
-Database Schema Design
+## Database Schema Design
 <add image here once created>
 
-API Documentation
+## API Documentation
 
 ## User Authentication/Authorization
 
-All endpoints that require authentication
+### All endpoints that require authentication
 
 All endpoints that require a current user to be logged in
 
-Request
-Response (Error)
-Status Code: 401
-Headers: {
-    "Content-Type": "application/json"
-}
-Body:
+*Request
+*Response (Error)
+*Status Code: 401
+*Headers: 
+   * Content-Type: application/json
+
+*Body:
 ```json
 {
     "message": "Authentication required",
@@ -31,10 +31,8 @@ All endpoints that require authentication and the current user does not have the
 
 Request
 Response (Error)
-Status Code: 403
-Headers: {
-    "Content-Type": "application/json"
-}
+- Status Code: 403
+- Headers: {"Content-Type": "application/json"}
 Body: 
 ```json
 {
