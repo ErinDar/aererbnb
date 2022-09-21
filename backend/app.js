@@ -5,9 +5,10 @@ const cors = require('cors');
 const csurf = require('csurf');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const { ValidationError } = require('sequelize');
 const { environment } = require('./config');
-const isProduction = (environment === 'production');
 const routes = require('./routes');
+const isProduction = (environment === 'production');
 
 const app = express();
 
@@ -37,7 +38,32 @@ app.use(
 
 app.use(routes);
 
+app.use((req, res, next) => {
+    const err = new Error("The requested resource couldn't be found.");
+    err.title = "Resource Not Found";
+    err.errors = ["The requested resource couldn't be found."];
+    err.status = 404;
+    next(err);
+});
 
+app.use((err, req, res, next) => {
+    if (err instanceof ValidationError) {
+        err.errors = err.errors.map(e => e.message);
+        err.title = 'Validation error';
+    }
+    next(err);
+});
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    console.log(err);
+    res.json({
+        title: err.title || 'Server Error',
+        message: err.message,
+        errors: err.errors,
+        stack: isProduction ? null : err.stack
+    })
+});
 
 
 
