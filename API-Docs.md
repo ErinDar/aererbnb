@@ -16,8 +16,8 @@ All endpoints that require a current user to be logged in
   * Status Code: 401
   * Headers: 
       * Content-Type: application/json
+  * Body
 
-  * Body:
       ```json
       {
          "message": "Authentication required",
@@ -32,8 +32,10 @@ All endpoints that require authentication and the current user does not have the
 * Request
 * Response (Error)
    * Status Code: 403
-   * Headers: {"Content-Type": "application/json"}
-   * Body: 
+   * Headers:
+     * Content-Type: application/json
+   * Body:
+
      ```json
      {
         "message": "Forbidden",
@@ -50,11 +52,13 @@ Returns the inforamtion abotu the current user that is logged in
   * Method:
   * URL:
   * Body: none
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "id": 1,
@@ -76,17 +80,20 @@ Logs in a current user with valid credentials and returns the current user's inf
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "credential": "john.smith@gmail.com",
         "password": "secret password"
     }
     ```
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "id": 1,
@@ -97,22 +104,26 @@ Logs in a current user with valid credentials and returns the current user's inf
         "token": ""
     }
    ```
+
 * Response (Invalid credentials)
   * Status Code: 401
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Invalid credentials",
         "statusCode": 401
     }
     ```
+
 * Response (Body validation errors)
   * Status Code: 400
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Validation error",
@@ -135,6 +146,7 @@ Creates a new user, logs them in as the current user, and returns the current us
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "firstName": "John",
@@ -144,11 +156,13 @@ Creates a new user, logs them in as the current user, and returns the current us
         "password": "secret password"
     }
     ```
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
-  * Body: 
+  * Body:
+
     ```json
     {
         "id": 1,
@@ -159,11 +173,13 @@ Creates a new user, logs them in as the current user, and returns the current us
         "token": ""
     }
     ```
+
 * Response (User already exists with the specified email)
   * Status Code: 403
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "User already exists",
@@ -173,11 +189,13 @@ Creates a new user, logs them in as the current user, and returns the current us
         }
     }
     ```
+
 * Response (User already exists with the specified username)
    * Status Code: 403
    * Headers:
      * Content-Type: application/json
    * Body:
+
      ```json
      {
         "message": "User already exists",
@@ -187,11 +205,13 @@ Creates a new user, logs them in as the current user, and returns the current us
         }
      }
      ```
+
 * Response (Body validation errors)
    * Status Code: 400
    * Headers:
      * Content-Type: application/json
    * Body:
+
      ```json
      {
         "message": "Validation error",
@@ -216,11 +236,13 @@ Returns all the spots
   * Method:
   * URL:
   * Body: none
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "Spots": [
@@ -254,11 +276,13 @@ Returns all the spots owned (created) by the current user
   * Method:
   * URL:
   * Body: none
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body: 
+
     ```json
     {
         "Spots": [
@@ -292,11 +316,13 @@ Returns the details of a spot specified by its id
   * Method:
   * URL:
   * Body: none
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "id": 1,
@@ -333,11 +359,13 @@ Returns the details of a spot specified by its id
         }
     }
     ```
+
 * Response (Couldn't find a spot with the specified id)
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Spot couldn't be found",
@@ -356,6 +384,7 @@ Creates and returns a new spot
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "address": "123 Disney Lane",
@@ -369,11 +398,13 @@ Creates and returns a new spot
         "price": 123
     }
     ```
+
 * Response
   * Status Code: 201
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "id": 1,
@@ -391,11 +422,13 @@ Creates and returns a new spot
         "updatedAt": "2021-11-19 20:39:36"
     }
     ```
+
 * Response (Body validation error)
   * Status Code: 400
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Validation Error",
@@ -426,17 +459,20 @@ Create and return a new image for a spot specified by id
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "url": "image url",
         "preview": true
     }
     ```
+
 * Response
    * Status Code: 200
    * Headers:
      * Content-Type: application/json
    * Body:
+
      ```json
      {
         "id": 1,
@@ -444,11 +480,13 @@ Create and return a new image for a spot specified by id
         "preview": true
      }
      ```
+
 * Response (Couldn't find a spot with the specified id)
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Spot couldn't be found",
@@ -468,6 +506,7 @@ Updates and returns an existing spot
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "address": "123 Disney Lane",
@@ -481,11 +520,13 @@ Updates and returns an existing spot
         "price": 123
     }
     ```
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "id": 1,
@@ -503,11 +544,13 @@ Updates and returns an existing spot
         "updatedAt": "2021-11-20 10:06:40"
     }
     ```
+
 * Response (Body validation error)
   * Status Code: 400
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Validation Error",
@@ -525,11 +568,13 @@ Updates and returns an existing spot
         }
     }
     ```
+
 * Response (Couldn't find a spot with the specified id)
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Spot couldn't be found",
@@ -547,22 +592,26 @@ Deletes an existing spot
   * Method: Delete
   * URL:
   * Body: none
+
 * Response
   * Status Code: 200
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Successfully deleted",
         "statusCode": 200
     }
     ```
+
 * Response (Couldn't find a spot with the specified id)
   * Status Code: 404
   * Headers:
     * Content-Type: application/json
   * Body:
+
     ```json
     {
         "message": "Spot couldn't be found",
