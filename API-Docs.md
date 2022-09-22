@@ -1,7 +1,7 @@
 # AirBnB Clone
 
 ## Database Schema Design
-<add image here once created>
+![db schema](./images/API-Project.png)
 
 ## API Documentation
 
@@ -1396,7 +1396,7 @@ Delete an existing image for a review
     }
     ```
 
-### Add Query Filters to Get All Spots
+## Add Query Filters to Get All Spots
 
 Return spots filtered by query parameters.
 
