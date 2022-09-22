@@ -976,3 +976,495 @@ Delete an existing review
     }
     ```
 
+## BOOKING 
+
+### Get all of the current user's bookings
+
+Return all the bookings that the current user has made
+
+* Require Authentication: true
+* Request
+  * Method:
+  * URL:
+  * Body: none
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "Bookings": [
+            {
+                "id": 1,
+                "spotId": 1,
+                "Spot": {
+                    "id": 1,
+                    "ownerId": 1,
+                    "address": "123 Disney Lane",
+                    "city": "San Francisco",
+                    "state": "California",
+                    "country": "United States of America",
+                    "lat": 37.7645358,
+                    "lng": -122.4730327,
+                    "name": "App Academy",
+                    "price": 123,
+                    "previewImage": "image url"
+                },
+                "userId": 2,
+                "startDate": "2021-11-19",
+                "endDate": "2021-11-20",
+                "createdAt": "2021-11-19 20:39:36",
+                "updatedAt": "2021-11-19 20:39:36"
+            }
+        ]
+    }
+    ```
+
+### Get all bookings for a spot based on the spot's id
+
+Return all the bookings for a spot specified by id
+
+* Require Authentication: true
+* Request
+  * Method:
+  * URL:
+  * Body: none
+
+* Response (NOT the owner of the spot)
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "Bookings" : [
+            {
+                "spotId": 1,
+                "startDate": "2021-11-19",
+                "endDate": "2021-11-20"
+            }
+        ]
+    }
+    ```
+
+* Response (Owner of the spot)
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "Bookings": [
+            {
+                "User": {
+                    "id": 2,
+                    "firstName": "John",
+                    "lastName": "Smith"
+                },
+                "id": 1,
+                "spotId": 1,
+                "userId": 2,
+                "startDate": "2021-11-19",
+                "endDate": "2021-11-20",
+                "createdAt": "2021-11-19 20:39:36",
+                "updatedAt": "2021-11-19 20:39:36"
+            }
+        ]
+    }
+    ```
+
+* Response (Couldn't find a spot with the specified id)
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Spot couldn't be found",
+        "statusCode": 404
+    }
+    ```
+
+### Create a booking from a spot based on the spot's id
+
+Create and return a new booking from a spot specified by id
+
+* Require Authentication: true
+* Require proper authorization: spot must not belong to the current user
+* Request
+  * Method:
+  * URL:
+  * Body:
+
+    ```json
+    {
+        "startDate": "2021-11-19",
+        "endDate": "2021-11-20"
+    }
+    ```
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id": 1,
+        "spotId": 1,
+        "userId": 2,
+        "startDate": "2021-11-19",
+        "endDate": "2021-11-20",
+        "createdAt": "2021-11-19 20:39:36",
+        "updatedAt": "2021-11-19 20:39:36"
+    }
+    ```
+
+* Response (Body validation errors)
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Validation error",
+        "statusCode": 400,
+        "errors": {
+            "endDate": "endDate cannot be on or before startDate"
+        }
+    }
+    ```
+
+* Response (Couldn't find a spot with the specified id)
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Spot couldn't be found",
+        "statusCode": 404
+    }
+    ```
+
+* Response (Booking conflict)
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Sorry, this spot is already booked for the specified dates",
+        "statusCode": 403,
+        "errors": {
+            "startDate": "Start date conflicts with an existing booking",
+            "endDate": "End date conflicts with an existing booking"
+        }
+    }
+    ```
+
+### Edit a Booking
+
+Update and return an existing booking
+
+* Require Authentication: true
+* Require proper authorization: Booking must belong to the current user
+* Request
+  * Method:
+  * URL:
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "startDate": "2021-11-19",
+        "endDate": "2021-11-20"
+    }
+    ```
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "id": 1,
+        "spotId": 1,
+        "userId": 2,
+        "startDate": "2021-11-19",
+        "endDate": "2021-11-20",
+        "createdAt": "2021-11-19 20:39:36",
+        "updatedAt": "2021-11-20 10:06:40"
+    }
+    ```
+
+* Response (Body validation errors)
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Validation error",
+        "statusCode": 400,
+        "errors": {
+            "endDate": "endDate cannot come before startDate"
+        }
+    }
+    ```
+
+* Response (Couldn't find a booking with the specified id)
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Booking couldn't be found",
+        "statusCode": 404
+    }
+    ```
+
+* Response (Can't edit a booking that's past the end date)
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Past bookings can't be modified",
+        "statusCode": 403
+    }
+    ```
+
+* Response (Booking conflict)
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Sorry, this spot is already booked for the specified dates",
+        "statusCode": 403,
+        "errors": {
+            "startDate": "Start date conflicts with an existing booking",
+            "endDate": "End date conflicts with an existing booking"
+        }
+    }
+    ```
+
+### Delete a booking
+
+Delete an existing booking
+
+* Require Authentication: true
+* Require proper authorization: Booking must belong to the current user or the spot must belong to the current user
+* Request
+  * Method:
+  * URL:
+  * Body: none
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Successfully deleted",
+        "statusCode": 200
+    }
+    ```
+
+* Response (Couldn't find a booking with the specified id)
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Booking couldn't be found",
+        "statusCode": 404
+    }
+    ```
+
+* Response (Bookings that have been started can't be deleted)
+  * Status Code: 403
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Bookings that have been started can't be deleted",
+        "statusCode": 403
+    }
+    ```
+
+## IMAGES
+
+### Delete a spot image
+
+Delete an existing image for a Spot
+
+* Require Authentication: true
+* Require proper authorization: Spot must belong to the current user
+* Request
+  * Method:
+  * URL:
+  * Body: none
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Successfully deleted",
+        "statusCode": 200
+    }
+    ```
+
+* Response
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Spot Image couldn't be found",
+        "statusCode": 404
+    }
+    ```
+
+### Delete a review image
+
+Delete an existing image for a review
+
+* Require Authentication: true
+* Require proper authorization: review must belong to the current user
+* Request
+  * Method:
+  * URL:
+  * Body: none
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Successfully deleted",
+        "statusCode": 200
+    }
+    ```
+
+* Response
+  * Status Code: 404
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+        "message": "Review Image couldn't be found",
+        "statusCode": 404
+    }
+    ```
+
+### Add Query Filters to Get All Spots
+
+Return spots filtered by query parameters.
+
+* Require Authentication: false
+* Request
+  * Method:
+  * URL:
+  * Query Parameters
+    * page: integer, minimum: 0, maximum: 10, default: 0
+    * size: integer, minimum: 0, maximum: 20, default: 20
+    * minLat: decimal, optional
+    * maxLat: decimal, optional
+    * minLng: decimal, optional
+    * maxLng: decimal, optional
+    * minPrice: decimal, optional, minimum: 0
+    * maxPrice: decimal, optional, minimum: 0
+  * Body: none
+
+* Response
+  * Status Code: 200
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "Spots":[
+        {
+          "id": 1,
+          "ownerId": 1,
+          "address": "123 Disney Lane",
+          "city": "San Francisco",
+          "state": "California",
+          "country": "United States of America",
+          "lat": 37.7645358,
+          "lng": -122.4730327,
+          "name": "App Academy",
+          "description": "Place where web developers are created",
+          "price": 123,
+          "createdAt": "2021-11-19 20:39:36",
+          "updatedAt": "2021-11-19 20:39:36",
+          "previewImage": "image url"
+        }
+      ],
+      "page": 2,
+      "size": 25
+    }
+    ```
+
+* Response (Query parameter validation errors)
+  * Status Code: 400
+  * Headers:
+    * Content-Type: application/json
+  * Body:
+
+    ```json
+    {
+      "message": "Validation Error",
+      "statusCode": 400,
+      "errors": {
+        "page": "Page must be greater than or equal to 0",
+        "size": "Size must be greater than or equal to 0",
+        "maxLat": "Maximum latitude is invalid",
+        "minLat": "Minimum latitude is invalid",
+        "minLng": "Maximum longitude is invalid",
+        "maxLng": "Minimum longitude is invalid",
+        "minPrice": "Maximum price must be greater than or equal to 0",
+        "maxPrice": "Minimum price must be greater than or equal to 0"
+      }
+    }
+    ```
