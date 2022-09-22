@@ -101,9 +101,9 @@ Logs in a current user with valid credentials and returns the current user's inf
         "lastName": "Smith",
         "email": "john.smith@gmail.com",
         "username": "JohnSmith",
-        "token": "";
+        "token": ""
     }
-   ```
+    ```
 
 * Response (Invalid credentials)
   * Status Code: 401
