@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
+
   User.init({
     username: {
       type: DataTypes.STRING,
@@ -91,10 +92,10 @@ module.exports = (sequelize, DataTypes) => {
       currentUser: {
         attributes: {
           exclude: ['hashedPassword']
-        },
-        loginUser: {
-          attributes: {}
         }
+      },
+      loginUser: {
+        attributes: {}
       }
     }
   });
