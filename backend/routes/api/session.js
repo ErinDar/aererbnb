@@ -23,7 +23,13 @@ router.post('/', async (req, res, next) => {
             user
         });
     }
+})
 
+router.delete('/', (req, res) => {
+    res.clearCookie('token');
+    return res.json({
+        message: 'success'
+    })
 })
 
 
