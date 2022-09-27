@@ -15,12 +15,6 @@ router.post('/test', (req, res) => {
     })
 })
 
-// router.post('/test', (req, res) => {
-//     res.json({
-//         requestBody: req.body
-//     })
-// })
-
 // router.get('/set-token-cookie', async (req, res) => {
 //     const user = await User.findOne({
 //         where: {
