@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     toSafeObject() {
-      const { id, username, email } = this;
-      return { id, username, email }
+      const { id, firstName, lastName, username, email } = this;
+      return { id, firstName, lastName, username, email }
     }
 
     validatePassword(password) {
@@ -37,9 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
 
-    static async signup({ username, email, password }) {
+    static async signup({ firstName, lastName, username, email, password }) {
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({
+        firstName,
+        lastName,
         username,
         email,
         hashedPassword
@@ -48,11 +50,32 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     static associate(models) {
-      // define association here
+      User.hasMany(
+        models.Spot,
+        {
+          foreignKey: 'ownerId',
+          onDelete: 'CASCADE',
+          hooks: true
+        }
+      )
     }
   }
 
   User.init({
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: true
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isAlpha: true
+      }
+    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -91,7 +114,7 @@ module.exports = (sequelize, DataTypes) => {
     scopes: {
       currentUser: {
         attributes: {
-          exclude: ['hashedPassword']
+          exclude: ['hashedPassword', 'createdAt', 'updatedAt']
         }
       },
       loginUser: {
