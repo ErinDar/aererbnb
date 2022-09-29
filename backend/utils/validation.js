@@ -1,5 +1,4 @@
 const { validationResult } = require('express-validator')
-const { param } = require('../routes')
 
 const handleValidationErrors = ((req, res, next) => {
     const validationErrors = validationResult(req)

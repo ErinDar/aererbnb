@@ -53,6 +53,12 @@ const restoreUser = (req, res, next) => {
 const requireAuth = (req, res, next) => {
     if (req.user) {
         return next()
+    } else {
+        res.status(401)
+        return res.json({
+            message: "Authentication required",
+            statusCode: 401
+        })
     }
 
     const err = new Error("Unauthorized")

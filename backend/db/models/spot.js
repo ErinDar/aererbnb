@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Spot.belongsTo(
         models.User,
         {
+          as: 'Owner',
           foreignKey: 'ownerId'
         })
     }
@@ -40,23 +41,26 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     lat: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL,
       allowNull: false
     },
     lng: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL,
       allowNull: false
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        len: [0, 50]
+      }
     },
     description: {
       type: DataTypes.STRING,
       allowNull: false
     },
     price: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.DECIMAL,
       allowNull: false
     }
   }, {
