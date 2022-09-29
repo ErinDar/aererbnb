@@ -5,6 +5,7 @@ const { setTokenCookie, requireAuth } = require('../../utils/auth')
 const { User } = require('../../db/models')
 const router = express.Router();
 
+
 const validateLogin = [
     check('credential')
         .exists({ checkFalsy: true })
@@ -18,9 +19,7 @@ const validateLogin = [
 router.get('/', requireAuth, (req, res) => {
     const { user } = req
     if (user) {
-        return res.json({
-            user: user.toSafeObject()
-        })
+        return res.json(user.toSafeObject())
     }
 })
 

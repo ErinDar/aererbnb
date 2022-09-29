@@ -1,7 +1,8 @@
 const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { User, Spot } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth')
+const { User, Spot, Review, SpotImage, sequelize } = require('../../db/models');
 const router = express.Router();
 
 const validateCreation = [
@@ -35,27 +36,56 @@ const validateCreation = [
     handleValidationErrors
 ]
 
+const validateImages = [
+    check('url')
+        .exists({ checkFalsy: true })
+        .withMessage('URL for image is required'),
+    check('preview')
+        .exists({ checkFalsy: true })
+        .withMessage('Preview must be true or false')
+]
+
 router.get('/', async (req, res, next) => {
-    const Spots = await Spot.findAll();
+    const Spots = await Spot.findAll({
+        // attributes: {
+        //     include: [
+        //         [
+        //             sequelize.fn("AVG", sequelize.col("Reviews.stars")),
+        //             "avgRating"
+        //         ]
+        //     ]
+        // },
+        // include: {
+        //     model: Review,
+        //     attributes: []
+        // },
+        // raw: true
+    });
+
     return res.json({ Spots })
 })
 
-router.get('/current', async (req, res, next) => {
+router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
     if (user) {
         const { id } = user.toSafeObject()
         const Spots = await Spot.findAll({
             where: {
                 ownerId: id
-            }
+            },
+            // attributes: {
+            //     include: [
+            //         [
+            //             sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'
+            //         ]
+            //     ]
+            // },
+            // include: {
+            //     model: Review,
+            //     attributes: []
+            // }
         })
         return res.json({ Spots })
-    } else {
-        res.status(401)
-        return res.json({
-            message: "Authentication required",
-            statusCode: 401
-        })
     }
 })
 
@@ -67,8 +97,16 @@ router.get('/:spotId', async (req, res, next) => {
         include: {
             model: User,
             as: "Owner",
-            attributes: ['id', 'firstName', 'lastName']
-        }
+            attributes: ['id', 'firstName', 'lastName'],
+            // model: SpotImage,
+            // as: "SpotImages",
+            // attributes: ['id', 'url', 'preview']
+        },
+        // include: {
+        //     model: SpotImage,
+        //     as: "SpotImages",
+        //     attributes: ['id', 'url', 'preview']
+        // }
     })
     if (!spot) {
         res.status(404)
@@ -81,7 +119,7 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
-router.post('/', validateCreation, async (req, res, next) => {
+router.post('/', validateCreation, requireAuth, async (req, res, next) => {
     const { user } = req
     if (user) {
         const { id } = user
@@ -100,14 +138,44 @@ router.post('/', validateCreation, async (req, res, next) => {
             price
         })
         );
-    } else {
-        res.status(401)
-        return res.json({
-            message: "Authentication required",
-            statusCode: 401
-        })
     }
 })
 
+router.post('/:spotId/images', validateImages, requireAuth, async (req, res, next) => {
+    const { user } = req
+    if (user) {
+        const { id } = user
+        const { url, preview } = req.body
+        const targetSpot = await Spot.findByPk(req.params.spotId)
+        if (targetSpot) {
+            const { ownerId } = targetSpot
+            if (ownerId === id) {
+                await SpotImage.create({
+                    spotId: targetSpot.id,
+                    url,
+                    preview
+                })
+                return res.json(await SpotImage.findOne({
+                    where: {
+                        spotId: req.params.spotId
+                    },
+                    attributes: ['id', 'url', 'preview']
+                }))
+            } else {
+                res.status(403)
+                return res.json({
+                    message: "Forbidden",
+                    statusCode: 403
+                })
+            }
+        } else {
+            res.status(404)
+            return res.json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+    }
+})
 
 module.exports = router;
