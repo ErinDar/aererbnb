@@ -79,13 +79,13 @@ router.get('/', async (req, res, next) => {
                 [
                     sequelize.literal(`(
                         SELECT AVG("Reviews".stars) FROM "Reviews"
-                        WHERE "Reviews.spotId" = "Spots".id
+                        WHERE "Reviews".spotId = "Spots".id
                     )`), 'avgRating'
                 ],
                 [
                     sequelize.literal(`(
                         SELECT url FROM "SpotImages"
-                        WHERE "SpotImages.spotId" = "Spots".id AND preview = true
+                        WHERE "SpotImages".spotId = "Spots".id AND preview = true
                     )`), 'previewImage'
                 ]
             ]
@@ -108,13 +108,13 @@ router.get('/current', requireAuth, async (req, res, next) => {
                     [
                         sequelize.literal(`(
                         SELECT AVG("Reviews".stars) FROM "Reviews"
-                        WHERE "Reviews.spotId" = "Spots".id
+                        WHERE "Reviews".spotId = "Spots".id
                     )`), 'avgRating'
                     ],
                     [
                         sequelize.literal(`(
                         SELECT url FROM "SpotImages"
-                        WHERE "SpotImages.spotId" = "Spots".id AND preview = true
+                        WHERE "SpotImages".spotId = "Spots".id AND preview = true
                     )`), 'previewImage'
                     ]
                 ]
