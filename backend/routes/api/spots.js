@@ -54,7 +54,6 @@ const validateImages = [
         .withMessage('URL for image is required'),
     check('preview')
         .exists({ checkNull: true })
-        .equals(true || false)
         .withMessage('Preview must be true or false'),
     handleValidationErrors
 ]
@@ -78,14 +77,14 @@ router.get('/', async (req, res, next) => {
             include: [
                 [
                     sequelize.literal(`(
-                        SELECT AVG("Reviews".stars) FROM "Reviews"
-                        WHERE "Reviews"."spotId" = "Spots".id
+                        SELECT AVG("Reviews"."stars") FROM "Reviews"
+                        WHERE "Reviews"."spotId" = "Spots"."id"
                     )`), 'avgRating'
                 ],
                 [
                     sequelize.literal(`(
                         SELECT url FROM "SpotImages"
-                        WHERE "SpotImages"."spotId" = "Spots".id AND preview = true
+                        WHERE "SpotImages"."spotId" = "Spots"."id" AND preview = true
                     )`), 'previewImage'
                 ]
             ]
@@ -107,14 +106,14 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 include: [
                     [
                         sequelize.literal(`(
-                        SELECT AVG("Reviews".stars) FROM "Reviews"
-                        WHERE "Reviews"."spotId" = "Spots".id
+                        SELECT AVG("Reviews"."stars") FROM "Reviews"
+                        WHERE "Reviews"."spotId" = "Spots"."id"
                     )`), 'avgRating'
                     ],
                     [
                         sequelize.literal(`(
                         SELECT url FROM "SpotImages"
-                        WHERE "SpotImages"."spotId" = "Spots".id AND preview = true
+                        WHERE "SpotImages"."spotId" = "Spots"."id" AND preview = true
                     )`), 'previewImage'
                     ]
                 ]
