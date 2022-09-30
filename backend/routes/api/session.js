@@ -1,9 +1,10 @@
 const express = require('express')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
-const { setTokenCookie, restoreUser } = require('../../utils/auth')
+const { setTokenCookie, requireAuth } = require('../../utils/auth')
 const { User } = require('../../db/models')
 const router = express.Router();
+
 
 const validateLogin = [
     check('credential')
@@ -15,12 +16,10 @@ const validateLogin = [
     handleValidationErrors
 ];
 
-router.get('/', (req, res) => {
+router.get('/', requireAuth, (req, res) => {
     const { user } = req
     if (user) {
         return res.json(user.toSafeObject())
-    } else {
-        return res.json({})
     }
 })
 
@@ -41,6 +40,7 @@ router.post('/', validateLogin, async (req, res, next) => {
     }
 
     const token = await setTokenCookie(res, user)
+
     user.dataValues.token = token
 
     return res.json(user)
@@ -49,7 +49,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 router.delete('/', (req, res) => {
     res.clearCookie('token');
     return res.json({
-        message: 'success'
+        message: 'User has been logged out'
     })
 })
 
