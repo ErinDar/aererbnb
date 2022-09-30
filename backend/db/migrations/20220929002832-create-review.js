@@ -14,8 +14,7 @@ module.exports = {
         references: {
           model: 'Spots',
           key: 'id'
-        },
-        onDelete: 'cascade'
+        }
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -23,13 +22,14 @@ module.exports = {
         references: {
           model: 'Users',
           key: 'id'
-        },
-        onDelete: 'cascade'
+        }
       },
       review: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       stars: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdAt: {
