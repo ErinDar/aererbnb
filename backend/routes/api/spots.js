@@ -47,19 +47,22 @@ const validateImages = [
 
 router.get('/', async (req, res, next) => {
     const Spots = await Spot.findAll({
-        // attributes: {
-        //     include: [
-        //         [
-        //             sequelize.fn("AVG", sequelize.col("Reviews.stars")),
-        //             "avgRating"
-        //         ]
-        //     ]
-        // },
-        // include: {
-        //     model: Review,
-        //     attributes: []
-        // },
-        // raw: true
+        attributes: {
+            include: [
+                [
+                    sequelize.literal(`(
+                        SELECT AVG(reviews.stars) FROM reviews
+                        WHERE reviews.spotId = spot.id
+                    )`), 'avgRating'
+                ],
+                [
+                    sequelize.literal(`(
+                        SELECT url FROM spotImages
+                        WHERE spotImages.spotId = spot.id
+                    )`), 'previewImage'
+                ]
+            ]
+        }
     });
 
     return res.json({ Spots })
@@ -73,17 +76,22 @@ router.get('/current', requireAuth, async (req, res, next) => {
             where: {
                 ownerId: id
             },
-            // attributes: {
-            //     include: [
-            //         [
-            //             sequelize.fn('AVG', sequelize.col('Reviews.stars')), 'avgRating'
-            //         ]
-            //     ]
-            // },
-            // include: {
-            //     model: Review,
-            //     attributes: []
-            // }
+            attributes: {
+                include: [
+                    [
+                        sequelize.literal(`(
+                        SELECT AVG(reviews.stars) FROM reviews
+                        WHERE reviews.spotId = spot.id
+                    )`), 'avgRating'
+                    ],
+                    [
+                        sequelize.literal(`(
+                        SELECT url FROM spotImages
+                        WHERE spotImages.spotId = spot.id
+                    )`), 'previewImage'
+                    ]
+                ]
+            }
         })
         return res.json({ Spots })
     }
@@ -94,19 +102,18 @@ router.get('/:spotId', async (req, res, next) => {
         where: {
             id: req.params.spotId
         },
-        include: {
-            model: User,
-            as: "Owner",
-            attributes: ['id', 'firstName', 'lastName'],
-            // model: SpotImage,
-            // as: "SpotImages",
-            // attributes: ['id', 'url', 'preview']
-        },
-        // include: {
-        //     model: SpotImage,
-        //     as: "SpotImages",
-        //     attributes: ['id', 'url', 'preview']
-        // }
+        include: [
+            {
+                model: SpotImage,
+                as: "SpotImages",
+                attributes: ['id', 'url', 'preview']
+            },
+            {
+                model: User,
+                as: "Owner",
+                attributes: ['id', 'firstName', 'lastName'],
+            }
+        ]
     })
     if (!spot) {
         res.status(404)
@@ -161,6 +168,83 @@ router.post('/:spotId/images', validateImages, requireAuth, async (req, res, nex
                     },
                     attributes: ['id', 'url', 'preview']
                 }))
+            } else {
+                res.status(403)
+                return res.json({
+                    message: "Forbidden",
+                    statusCode: 403
+                })
+            }
+        } else {
+            res.status(404)
+            return res.json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+    }
+})
+
+router.put('/:spotId', validateCreation, requireAuth, async (req, res, next) => {
+    const { user } = req
+    if (user) {
+        const { id } = user
+        const { address, city, state, country, lat, lng, name, description, price } = req.body
+        const targetSpot = await Spot.findByPk(req.params.spotId)
+        if (targetSpot) {
+            const { ownerId } = targetSpot
+            if (ownerId === id) {
+                await Spot.update({
+                    address,
+                    city,
+                    state,
+                    country,
+                    lat,
+                    lng,
+                    name,
+                    description,
+                    price
+                },
+                    {
+                        where: {
+                            id: req.params.spotId
+                        }
+                    });
+                return res.json(await Spot.findByPk(req.params.spotId))
+            } else {
+                res.status(403)
+                return res.json({
+                    message: "Forbidden",
+                    statusCode: 403
+                })
+            }
+        } else {
+            res.status(404)
+            return res.json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+    }
+})
+
+router.delete('/:spotId', requireAuth, async (req, res, next) => {
+    const { user } = req
+    if (user) {
+        const { id } = user
+        const targetSpot = await Spot.findByPk(req.params.spotId)
+        if (targetSpot) {
+            const { ownerId } = targetSpot
+            if (ownerId === id) {
+                await Spot.destroy({
+                    where: {
+                        id: req.params.spotId
+                    }
+                })
+                return res.json({
+                    message: "Successfully deleted",
+                    statusCode: 200
+                })
             } else {
                 res.status(403)
                 return res.json({
