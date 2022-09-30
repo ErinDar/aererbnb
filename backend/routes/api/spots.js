@@ -85,7 +85,7 @@ router.get('/', async (req, res, next) => {
                 [
                     sequelize.literal(`(
                         SELECT url FROM "SpotImages"
-                        WHERE "SpotImages".spotId = "Spots".id, preview = true
+                        WHERE "SpotImages".spotId = "Spots".id AND preview = true
                     )`), 'previewImage'
                 ]
             ]
