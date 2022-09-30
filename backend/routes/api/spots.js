@@ -2,7 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth')
-const { User, Spot, Review, SpotImage, sequelize } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, sequelize } = require('../../db/models');
 const router = express.Router();
 
 const validateCreation = [
@@ -36,13 +36,26 @@ const validateCreation = [
     handleValidationErrors
 ]
 
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Review text is required'),
+    check('stars')
+        .exists({ checkFalsy: true })
+        .isLength({ min: 1, max: 5 })
+        .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+]
+
 const validateImages = [
     check('url')
         .exists({ checkFalsy: true })
         .withMessage('URL for image is required'),
     check('preview')
-        .exists({ checkFalsy: true })
-        .withMessage('Preview must be true or false')
+        .exists({ checkNull: true })
+        .equals(true || false)
+        .withMessage('Preview must be true or false'),
+    handleValidationErrors
 ]
 
 router.get('/', async (req, res, next) => {
@@ -126,6 +139,34 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const targetSpot = await Spot.findByPk(req.params.spotId)
+    if (targetSpot) {
+        const Reviews = await Review.findOne({
+            where: {
+                spotId: req.params.spotId
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ['id', 'firstName', 'lastName']
+                },
+                {
+                    model: ReviewImage,
+                    attributes: ['id', 'url']
+                }
+            ]
+        })
+        return res.json({ Reviews })
+    } else {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+})
+
 router.post('/', validateCreation, requireAuth, async (req, res, next) => {
     const { user } = req
     if (user) {
@@ -185,6 +226,42 @@ router.post('/:spotId/images', validateImages, requireAuth, async (req, res, nex
     }
 })
 
+router.post('/:spotId/reviews', validateReview, requireAuth, async (req, res, next) => {
+    const { user } = req
+    const targetSpot = await Spot.findByPk(req.params.spotId)
+    const { id } = targetSpot
+    const reveiwChecker = await Review.findOne({
+        where: {
+            userId: user.id,
+            spotId: id
+        }
+    })
+    if (reveiwChecker) {
+        res.status(403)
+        return res.json({
+            message: "User already has a review for this spot",
+            statusCode: 403
+        })
+    } else {
+        if (targetSpot) {
+            const { review, stars } = req.body
+            const newReview = await Review.create({
+                userId: user.id,
+                spotId: id,
+                review,
+                stars
+            })
+            return res.json(newReview)
+        } else {
+            res.status(404)
+            return res.json({
+                message: "Spot couldn't be found",
+                statusCode: 404
+            })
+        }
+    }
+})
+
 router.put('/:spotId', validateCreation, requireAuth, async (req, res, next) => {
     const { user } = req
     if (user) {
@@ -194,17 +271,18 @@ router.put('/:spotId', validateCreation, requireAuth, async (req, res, next) => 
         if (targetSpot) {
             const { ownerId } = targetSpot
             if (ownerId === id) {
-                await Spot.update({
-                    address,
-                    city,
-                    state,
-                    country,
-                    lat,
-                    lng,
-                    name,
-                    description,
-                    price
-                },
+                await Spot.update(
+                    {
+                        address,
+                        city,
+                        state,
+                        country,
+                        lat,
+                        lng,
+                        name,
+                        description,
+                        price
+                    },
                     {
                         where: {
                             id: req.params.spotId
