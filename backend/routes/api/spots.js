@@ -334,36 +334,36 @@ router.post('/:spotId/images', validateImages, requireAuth, async (req, res, nex
 router.post('/:spotId/reviews', validateReview, requireAuth, async (req, res, next) => {
     const { user } = req
     const targetSpot = await Spot.findByPk(req.params.spotId)
-    const { id } = targetSpot
-    const reveiwChecker = await Review.findOne({
-        where: {
-            userId: user.id,
-            spotId: id
-        }
-    })
-    if (reveiwChecker) {
-        res.status(403)
-        return res.json({
-            message: "User already has a review for this spot",
-            statusCode: 403
+    if (targetSpot) {
+        const reveiwChecker = await Review.findOne({
+            where: {
+                userId: user.id,
+                spotId: targetSpot.id
+            }
         })
-    } else {
-        if (targetSpot) {
+        if (reveiwChecker) {
+            res.status(403)
+            return res.json({
+                message: "User already has a review for this spot",
+                statusCode: 403
+            })
+        } else {
             const { review, stars } = req.body
             const newReview = await Review.create({
                 userId: user.id,
-                spotId: id,
+                spotId: targetSpot.id,
                 review,
                 stars
             })
+            res.status(201)
             return res.json(newReview)
-        } else {
-            res.status(404)
-            return res.json({
-                message: "Spot couldn't be found",
-                statusCode: 404
-            })
         }
+    } else {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
     }
 })
 
