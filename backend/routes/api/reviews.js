@@ -33,6 +33,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 {
                     model: Spot,
                     attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
+                        // Only works locally   
                         [
                             sequelize.literal(`(
                                 SELECT url FROM spotImages
