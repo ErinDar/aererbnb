@@ -1,5 +1,4 @@
 const express = require('express');
-const { json } = require('sequelize');
 const router = express.Router();
 const apiRouter = require('./api');
 
