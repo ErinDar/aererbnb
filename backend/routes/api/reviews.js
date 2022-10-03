@@ -45,8 +45,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 {
                     model: ReviewImage,
                     attributes: ['id', 'url']
-                },
-                SpotImage
+                }
             ]
         })
         return res.json({ Reviews })
