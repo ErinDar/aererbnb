@@ -19,117 +19,110 @@ const validateReview = [
 
 router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
-    if (user) {
-        const { id } = user
-        const Reviews = await Review.findAll({
-            where: {
-                userId: id
+    const { id } = user
+    const Reviews = await Review.findAll({
+        where: {
+            userId: id
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
             },
-            include: [
-                {
-                    model: User,
-                    attributes: ['id', 'firstName', 'lastName']
-                },
-                {
-                    model: Spot,
-                    attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
-                        // Only works locally   
-                        [
-                            sequelize.literal(`(
+            {
+                model: Spot,
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
+                    [
+                        sequelize.literal(`(
                                 SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id"
                             )`), 'previewImage'
-                        ]
                     ]
-                },
-                {
-                    model: ReviewImage,
-                    attributes: ['id', 'url']
-                }
-            ]
-        })
-        return res.json({ Reviews })
-    }
+                ]
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    })
+    return res.json({ Reviews })
 })
 
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const { user } = req
-    if (user) {
-        const review = await Review.findByPk(req.params.reviewId)
-        if (review) {
-            if (user.id === review.userId) {
-                const reviewImg = await ReviewImage.findAll({
+    const review = await Review.findByPk(req.params.reviewId)
+    if (review) {
+        if (user.id === review.userId) {
+            const reviewImg = await ReviewImage.findAll({
+                where: {
+                    reviewId: review.id
+                }
+            })
+            if (reviewImg.length <= 10) {
+                const { url } = req.body
+                await ReviewImage.create({
+                    reviewId: review.id,
+                    url
+                })
+                return res.json(await ReviewImage.findOne({
                     where: {
                         reviewId: review.id
-                    }
-                })
-                if (reviewImg.length <= 10) {
-                    const { url } = req.body
-                    await ReviewImage.create({
-                        reviewId: review.id,
-                        url
-                    })
-                    return res.json(await ReviewImage.findOne({
-                        where: {
-                            reviewId: review.id
-                        },
-                        attributes: ['id', 'url']
-                    }))
-                } else {
-                    res.status(403)
-                    return res.json({
-                        message: "Maximum number of images for this resource was reached",
-                        statusCode: 403
-                    })
-                }
+                    },
+                    attributes: ['id', 'url']
+                }))
             } else {
                 res.status(403)
                 return res.json({
-                    message: "Forbidden",
+                    message: "Maximum number of images for this resource was reached",
                     statusCode: 403
                 })
             }
         } else {
-            res.status(404)
+            res.status(403)
             return res.json({
-                message: "Review couldn't be found",
-                statusCode: 404
+                message: "Forbidden",
+                statusCode: 403
             })
         }
+    } else {
+        res.status(404)
+        return res.json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
     }
 })
 
 router.put('/:reviewId', validateReview, requireAuth, async (req, res, next) => {
     const { user } = req
-    if (user) {
-        const targetReview = await Review.findByPk(req.params.reviewId)
-        if (targetReview) {
-            if (user.id === targetReview.userId) {
-                const { review, stars } = req.body
-                await Review.update(
-                    {
-                        review,
-                        stars,
+    const targetReview = await Review.findByPk(req.params.reviewId)
+    if (targetReview) {
+        if (user.id === targetReview.userId) {
+            const { review, stars } = req.body
+            await Review.update(
+                {
+                    review,
+                    stars,
+                },
+                {
+                    where: {
+                        id: targetReview.id
                     },
-                    {
-                        where: {
-                            id: targetReview.id
-                        },
-                    })
-                return res.json(await Review.findByPk(req.params.reviewId))
-            } else {
-                res.status(403)
-                return res.json({
-                    message: "Forbidden",
-                    statusCode: 403
                 })
-            }
+            return res.json(await Review.findByPk(req.params.reviewId))
         } else {
-            res.status(404)
+            res.status(403)
             return res.json({
-                message: "Review couldn't be found",
-                statusCode: 404
+                message: "Forbidden",
+                statusCode: 403
             })
         }
+    } else {
+        res.status(404)
+        return res.json({
+            message: "Review couldn't be found",
+            statusCode: 404
+        })
     }
 })
 

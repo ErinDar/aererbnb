@@ -18,9 +18,7 @@ const validateLogin = [
 
 router.get('/', requireAuth, (req, res) => {
     const { user } = req
-    // if (user) {
     return res.json(user.toSafeObject())
-    // }
 })
 
 router.post('/', validateLogin, async (req, res, next) => {

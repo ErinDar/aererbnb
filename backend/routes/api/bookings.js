@@ -3,14 +3,16 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize')
-const { User, Spot, SpotImage, Booking, sequelize } = require('../../db/models');
+const { Spot, Booking, sequelize } = require('../../db/models');
 const router = express.Router();
 
 const validateBookings = [
     check('endDate')
         .exists({ checkFalsy: true })
         .custom((value, { req }) => {
-            if (new Date(value) <= new Date(req.body.startDate)) {
+            const endDate = Date.parse(value)
+            const startDate = Date.parse(req.body.startDate)
+            if (endDate <= startDate) {
                 return false
             }
             return true
@@ -21,27 +23,24 @@ const validateBookings = [
 
 router.get('/current', requireAuth, async (req, res, next) => {
     const { user } = req
-    if (user) {
-        const Bookings = await Booking.findAll({
-            where: {
-                userId: user.id
-            },
-            include: [
-                {
-                    model: Spot,
-                    attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
-                        [
-                            sequelize.literal(`(
-                        SELECT url FROM spotImages
-                        WHERE spotImages.spotId = spot.id
+    const Bookings = await Booking.findAll({
+        where: {
+            userId: user.id
+        },
+        include: [
+            {
+                model: Spot,
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
+                    [
+                        sequelize.literal(`(
+                        SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id"
                     )`), 'previewImage'
-                        ]
                     ]
-                }
-            ],
-        })
-        return res.json({ Bookings })
-    }
+                ]
+            }
+        ],
+    })
+    return res.json({ Bookings })
 })
 
 router.put('/:bookingId', validateBookings, requireAuth, async (req, res, next) => {
@@ -49,8 +48,11 @@ router.put('/:bookingId', validateBookings, requireAuth, async (req, res, next) 
     const targetBooking = await Booking.findByPk(req.params.bookingId)
     if (targetBooking) {
         if (user.id === targetBooking.userId) {
+            const today = new Date()
             const { startDate, endDate } = req.body
-            if (Date() > targetBooking.endDate) {
+            const newStartDate = new Date(startDate)
+            const newEndDate = new Date(endDate)
+            if (today > targetBooking.endDate) {
                 res.status(403)
                 return res.json({
                     message: "Past bookings can't be modified",
@@ -60,7 +62,7 @@ router.put('/:bookingId', validateBookings, requireAuth, async (req, res, next) 
                 const bookingCheck = await Booking.findOne({
                     where: {
                         spotId: targetBooking.spotId,
-                        [Op.or]: [{ startDate }, { endDate }]
+                        [Op.or]: [{ startDate: newStartDate }, { endDate: newEndDate }]
                     }
                 })
                 if (bookingCheck) {
@@ -109,7 +111,8 @@ router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const targetBooking = await Booking.findByPk(req.params.bookingId)
     const targetSpot = await Spot.findByPk(targetBooking.spotId)
     if (targetBooking) {
-        if (targetBooking.startDate === Date() || targetBooking.startDate < Date()) {
+        const today = new Date()
+        if (targetBooking.startDate === today || targetBooking.startDate < today) {
             res.status(403)
             return res.json({
                 message: "Bookings that have been started can't be deleted",

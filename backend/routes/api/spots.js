@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth')
 const { Op } = require('sequelize')
-const { User, Spot, Review, SpotImage, ReviewImage, Booking, sequelize } = require('../../db/models');
+const { User, Spot, Review, SpotImage, ReviewImage, Booking } = require('../../db/models');
 const router = express.Router();
 
 const validateCreation = [
@@ -62,7 +62,9 @@ const validateBookings = [
     check('endDate')
         .exists({ checkFalsy: true })
         .custom((value, { req }) => {
-            if (new Date(value) <= new Date(req.body.startDate)) {
+            const endDate = Date.parse(value)
+            const startDate = Date.parse(req.body.startDate)
+            if (endDate <= startDate) {
                 return false
             }
             return true
@@ -71,57 +73,81 @@ const validateBookings = [
     handleValidationErrors
 ]
 
-router.get('/', async (req, res, next) => {
-    // Only works locally
-    // const Spots = await Spot.findAll({
-    //     attributes: {
-    //         include: [
-    //             [
-    //                 sequelize.literal(`(
-    //                     SELECT AVG(Reviews.stars) FROM reviews
-    //                     WHERE reviews.spotId = spot.id
-    //                 )`), 'avgRating'
-    //             ],
-    //             [
-    //                 sequelize.literal(`(
-    //                     SELECT url FROM SpotImages
-    //                     WHERE SpotImages.spotId = spot.id AND preview = true
-    //                 )`), 'previewImage'
-    //             ]
-    //         ]
-    //     }
-    // });
+const validateQuery = [
+    check('page')
+        .isLength({ min: 1, max: 10 })
+        .withMessage('Page must be greater than or equal to 1'),
+    check('size')
+        .isLength({ min: 1, max: 20 })
+        .withMessage('Size must be greater than or equal to 1'),
+    check('maxLat')
+        .isDecimal()
+        .withMessage('Maximum latitude is invalid'),
+    check('minLat')
+        .isDecimal()
+        .withMessage('Minimum latitude is invalid'),
+    check('minLng')
+        .isDecimal()
+        .withMessage('Minimum longitude is invalid'),
+    check('maxLng')
+        .isDecimal()
+        .withMessage('Maximum longitude is invalid'),
+    check('minPrice')
+        .isLength({ min: 0 })
+        .withMessage('Minimum price must be greater than or equal to 0'),
+    check('maxPrice')
+        .isLength({ min: 0 })
+        .withMessage('Maximum price must be greater than or equal to 0')
+]
 
+router.get('/', validateQuery, async (req, res, next) => {
     const Spots = await Spot.findAll({
-        include: [Review, SpotImage]
-    })
-    let response = [];
-    for (let spot of Spots) {
-        let totalStars = 0;
-        for (let review of spot.Reviews) {
-            totalStars += review.stars
+        attributes: {
+            include: [
+                [
+                    sequelize.literal(`(
+                        SELECT AVG("Reviews"."stars") FROM "Reviews" WHERE "Reviews"."spotId" = "spot"."id"
+                    )`), 'avgRating'
+                ],
+                [
+                    sequelize.literal(`(
+                        SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "spot"."id" AND "preview" = true
+                    )`), 'previewImage'
+                ]
+            ]
         }
+    });
+    return res.json({ Spots })
+    // const Spots = await Spot.findAll({
+    //     include: [Review, SpotImage]
+    // })
+    // let response = [];
+    // for (let spot of Spots) {
+    //     let totalStars = 0;
+    //     for (let review of spot.Reviews) {
+    //         totalStars += review.stars
+    //     }
 
-        let avgRating = totalStars / spot.Reviews.length
+    //     let avgRating = totalStars / spot.Reviews.length
 
-        spot.dataValues.avgRating = avgRating
+    //     spot.dataValues.avgRating = avgRating
 
-        for (let image of spot.SpotImages) {
-            if (!spot.dataValues.previewImage) {
-                if (image.preview === true) {
-                    spot.dataValues.previewImage = image.url
-                }
-            }
-        }
-        if (!spot.dataValues.previewImage) {
-            spot.dataValues.previewImage = "No preview image"
-        }
-        delete spot.dataValues.Reviews
-        delete spot.dataValues.SpotImages
-        response.push(spot)
-    }
+    //     for (let image of spot.SpotImages) {
+    //         if (!spot.dataValues.previewImage) {
+    //             if (image.preview === true) {
+    //                 spot.dataValues.previewImage = image.url
+    //             }
+    //         }
+    //     }
+    //     if (!spot.dataValues.previewImage) {
+    //         spot.dataValues.previewImage = "No preview image"
+    //     }
+    //     delete spot.dataValues.Reviews
+    //     delete spot.dataValues.SpotImages
+    //     response.push(spot)
+    // }
 
-    return res.json({ Spots: response })
+    // return res.json({ Spots: response })
 })
 
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -373,10 +399,12 @@ router.post('/:spotId/bookings', validateBookings, requireAuth, async (req, res,
     if (targetSpot) {
         if (user.id !== targetSpot.userId) {
             const { startDate, endDate } = req.body
+            const newStartDate = new Date(startDate)
+            const newEndDate = new Date(endDate)
             const bookingCheck = await Booking.findOne({
                 where: {
                     spotId: targetSpot.id,
-                    [Op.or]: [{ startDate }, { endDate }]
+                    [Op.or]: [{ startDate: newStartDate }, { endDate: newEndDate }]
                 }
             })
             if (bookingCheck) {
