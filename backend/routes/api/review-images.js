@@ -12,7 +12,7 @@ router.delete('/:imageId', requireAuth, async (req, res, next) => {
         }
     })
     if (reviewImg) {
-        const review = await Review.findByPk(reviewImg.spotId)
+        const review = await Review.findByPk(reviewImg.reviewId)
         if (review.userId === user.id) {
             await ReviewImage.destroy({
                 where: {

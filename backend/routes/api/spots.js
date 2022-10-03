@@ -118,9 +118,78 @@ router.get('/', validateQuery, async (req, res, next) => {
     //     }
     // });
     // return res.json({ Spots })
+
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query
+
+    if (!page) page = 1;
+    if (!size) size = 20;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    const pagination = {};
+    const where = {};
+
+    if (Number.isInteger(page) && Number.isInteger(size) && page <= 10 && size <= 20) {
+        pagination.limit = size;
+        pagination.offset = size * (page - 1)
+    }
+
+
+    if (minLat) {
+        where.minLat = {
+            lat: {
+                [Op.gt]: req.query.minLat
+            }
+        }
+    }
+
+    if (maxLat) {
+        where.maxLat = {
+            lat: {
+                [Op.lt]: req.query.maxLat
+            }
+        }
+    }
+
+    if (minLng) {
+        where.minLng = {
+            lng: {
+                [Op.gt]: req.query.minLng
+            }
+        }
+    }
+
+    if (maxLng) {
+        where.maxLng = {
+            lng: {
+                [Op.lt]: req.query.maxLng
+            }
+        }
+    }
+
+    if (minPrice) {
+        where.minPrice = {
+            price: {
+                [Op.gt]: req.query.minPrice
+            }
+        }
+    }
+
+    if (maxPrice) {
+        where.maxPrice = {
+            price: {
+                [Op.lt]: req.query.maxPrice
+            }
+        }
+    }
+
     const Spots = await Spot.findAll({
-        include: [Review, SpotImage]
+        where,
+        include: [Review, SpotImage],
+        ...pagination
     })
+
     let response = [];
     for (let spot of Spots) {
         let totalStars = 0;
