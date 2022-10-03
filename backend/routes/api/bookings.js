@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize')
-const { User, Spot, Booking, sequelize } = require('../../db/models');
+const { Spot, Booking, SpotImage, sequelize } = require('../../db/models');
 const router = express.Router();
 
 const validateBookings = [
@@ -30,7 +30,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         include: [
             {
                 model: Spot,
-                attributes: ['ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
             }
         ]
     })
@@ -102,8 +102,8 @@ router.put('/:bookingId', validateBookings, requireAuth, async (req, res, next) 
 router.delete('/:bookingId', requireAuth, async (req, res, next) => {
     const { user } = req
     const targetBooking = await Booking.findByPk(req.params.bookingId)
-    const targetSpot = await Spot.findByPk(targetBooking.spotId)
     if (targetBooking) {
+        const targetSpot = await Spot.findByPk(targetBooking.spotId)
         const today = new Date()
         if (targetBooking.startDate === today || targetBooking.startDate < today) {
             res.status(403)
