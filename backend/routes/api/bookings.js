@@ -27,18 +27,17 @@ router.get('/current', requireAuth, async (req, res, next) => {
         where: {
             userId: user.id
         },
-        include: [
-            {
-                model: Spot,
-                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
-                    [
-                        sequelize.literal(`(
+        include: {
+            model: Spot,
+            attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
+                [
+                    sequelize.literal(`(
                                 SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id"
                             )`), 'previewImage'
-                    ]
                 ]
-            }
-        ]
+            ]
+        }
+
     })
     return res.json({ Bookings })
 })
