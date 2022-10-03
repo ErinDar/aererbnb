@@ -36,8 +36,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
                         // Only works locally   
                         [
                             sequelize.literal(`(
-                                'SELECT url FROM spotImages
-                                WHERE spotImages.spotId = spot.id'
+                                EXECUTE 'SELECT url FROM spotImages WHERE spotImages.spotId = spot.id'
                             )`), 'previewImage'
                         ]
                     ]
