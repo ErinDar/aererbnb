@@ -101,53 +101,53 @@ const validateQuery = [
 ]
 
 router.get('/', validateQuery, async (req, res, next) => {
-    const Spots = await Spot.findAll({
-        attributes: {
-            include: [
-                [
-                    sequelize.literal(`(
-                        SELECT AVG("Reviews"."stars") FROM "Reviews" WHERE "Reviews"."spotId" = "Spot"."id"
-                    )`), 'avgRating'
-                ],
-                [
-                    sequelize.literal(`(
-                        SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id" AND "preview" = true
-                    )`), 'previewImage'
-                ]
-            ]
-        }
-    });
-    return res.json({ Spots })
     // const Spots = await Spot.findAll({
-    //     include: [Review, SpotImage]
-    // })
-    // let response = [];
-    // for (let spot of Spots) {
-    //     let totalStars = 0;
-    //     for (let review of spot.Reviews) {
-    //         totalStars += review.stars
+    //     attributes: {
+    //         include: [
+    //             [
+    //                 sequelize.literal(`(
+    //                     SELECT AVG("Reviews"."stars") FROM "Reviews" WHERE "Reviews"."spotId" = "Spot"."id"
+    //                 )`), 'avgRating'
+    //             ],
+    //             [
+    //                 sequelize.literal(`(
+    //                     SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id" AND "preview" = true
+    //                 )`), 'previewImage'
+    //             ]
+    //         ]
     //     }
+    // });
+    // return res.json({ Spots })
+    const Spots = await Spot.findAll({
+        include: [Review, SpotImage]
+    })
+    let response = [];
+    for (let spot of Spots) {
+        let totalStars = 0;
+        for (let review of spot.Reviews) {
+            totalStars += review.stars
+        }
 
-    //     let avgRating = totalStars / spot.Reviews.length
+        let avgRating = totalStars / spot.Reviews.length
 
-    //     spot.dataValues.avgRating = avgRating
+        spot.dataValues.avgRating = avgRating
 
-    //     for (let image of spot.SpotImages) {
-    //         if (!spot.dataValues.previewImage) {
-    //             if (image.preview === true) {
-    //                 spot.dataValues.previewImage = image.url
-    //             }
-    //         }
-    //     }
-    //     if (!spot.dataValues.previewImage) {
-    //         spot.dataValues.previewImage = "No preview image"
-    //     }
-    //     delete spot.dataValues.Reviews
-    //     delete spot.dataValues.SpotImages
-    //     response.push(spot)
-    // }
+        for (let image of spot.SpotImages) {
+            if (!spot.dataValues.previewImage) {
+                if (image.preview === true) {
+                    spot.dataValues.previewImage = image.url
+                }
+            }
+        }
+        if (!spot.dataValues.previewImage) {
+            spot.dataValues.previewImage = "No preview image"
+        }
+        delete spot.dataValues.Reviews
+        delete spot.dataValues.SpotImages
+        response.push(spot)
+    }
 
-    // return res.json({ Spots: response })
+    return res.json({ Spots: response })
 })
 
 router.get('/current', requireAuth, async (req, res, next) => {
