@@ -3,7 +3,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize')
-const { Spot, Booking, sequelize } = require('../../db/models');
+const { User, Spot, Booking, sequelize } = require('../../db/models');
 const router = express.Router();
 
 const validateBookings = [
@@ -27,17 +27,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
         where: {
             userId: user.id
         },
-        include: {
-            model: Spot,
-            attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
-                [
-                    sequelize.literal(`(
+        include: [
+            {
+                model: Spot,
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
+                    [
+                        sequelize.literal(`(
                                 SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id"
+                                (SELECT "url" FROM "SpotImages" WHERE "SpotImages".spotId" = "Spot"."id")
                             )`), 'previewImage'
+                    ]
                 ]
-            ]
-        }
-
+            }
+        ]
     })
     return res.json({ Bookings })
 })
@@ -84,9 +86,8 @@ router.put('/:bookingId', validateBookings, requireAuth, async (req, res, next) 
                             where: {
                                 id: req.params.bookingId
                             }
-                        }
-                    )
-                };
+                        })
+                }
                 return res.json(await Booking.findByPk(req.params.bookingId))
             }
         } else {
