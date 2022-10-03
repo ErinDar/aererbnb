@@ -106,12 +106,12 @@ router.get('/', validateQuery, async (req, res, next) => {
             include: [
                 [
                     sequelize.literal(`(
-                        SELECT AVG("Reviews"."stars") FROM "Reviews" WHERE "Reviews"."spotId" = "spot"."id"
+                        SELECT AVG("Reviews"."stars") FROM "Reviews" WHERE "Reviews"."spotId" = "Spot"."id"
                     )`), 'avgRating'
                 ],
                 [
                     sequelize.literal(`(
-                        SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "spot"."id" AND "preview" = true
+                        SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id" AND "preview" = true
                     )`), 'previewImage'
                 ]
             ]
