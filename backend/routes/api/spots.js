@@ -241,7 +241,7 @@ router.get('/:spotId', async (req, res, next) => {
 router.get('/:spotId/reviews', async (req, res, next) => {
     const targetSpot = await Spot.findByPk(req.params.spotId)
     if (targetSpot) {
-        const Reviews = await Review.findOne({
+        const Reviews = await Review.findAll({
             where: {
                 spotId: req.params.spotId
             },

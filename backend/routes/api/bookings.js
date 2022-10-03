@@ -33,12 +33,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
                 attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price',
                     [
                         sequelize.literal(`(
-                        SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id"
-                    )`), 'previewImage'
+                                SELECT "url" FROM "SpotImages" WHERE "SpotImages"."spotId" = "Spot"."id"
+                            )`), 'previewImage'
                     ]
                 ]
             }
-        ],
+        ]
     })
     return res.json({ Bookings })
 })
