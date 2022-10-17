@@ -1,0 +1,10 @@
+button {
+    background-color: red;
+    color: white;
+    display: flex;
+}
+
+label {
+    color: red;
+    display: flex;
+}
