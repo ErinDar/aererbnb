@@ -55,7 +55,10 @@ export const getAllSpots = () => async (dispatch) => {
 
 //delete spot thunk action
 
-export default function spotReducer(state = {}, action) {
+const initialState = {
+    Spots: []
+}
+export default function spotReducer(state = initialState, action) {
     let spotObj = {}
     switch (action.type) {
         case POPULATE_SPOTS:
