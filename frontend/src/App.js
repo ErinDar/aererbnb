@@ -3,13 +3,16 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
 import SignupFormPage from './components/SignUpFormPage';
 import * as sessionActions from './store/session'
+import * as spotActions from './store/spots'
 import Navigation from './components/Navigation'
+import Spots from './components/Spots'
 
 function App() {
     const dispatch = useDispatch()
     const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
+        dispatch(spotActions.getAllSpots())
         dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true))
     }, [dispatch])
 
@@ -23,6 +26,9 @@ function App() {
                     </Route>
                 </Switch>
             )}
+            <div>
+                <Spots />
+            </div>
         </>
     )
 }

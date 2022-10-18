@@ -23,7 +23,7 @@ function Navigation() {
     }
 
     return (
-        <ul>
+        <ul style={{ listStyleType: 'none' }}>
             <li>
                 <NavLink exact to="/">Home</NavLink>
                 {sessionLinks}
