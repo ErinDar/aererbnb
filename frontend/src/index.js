@@ -12,6 +12,7 @@ import * as spotActions from "./store/spots"
 
 const store = configureStore();
 
+// so I can test in devTools console
 if (process.env.NODE_ENV !== 'production') {
     restoreCSRF();
 
