@@ -1,3 +1,33 @@
+.border-line {
+    border-bottom: 3px black;
+}
+
+.exit-button {
+    display: flex;
+    position: absolute;
+    top: 16px;
+    left: 24px;
+}
+
+h1 {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0px 24px;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    color: rgb(34, 34, 34);
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 800;
+    box-sizing: border-box;
+}
+
+
 #modal {
     position: fixed;
     top: 0;
@@ -19,6 +49,18 @@
 }
 
 #modal-content {
-    position: absolute;
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
     background-color: white;
+}
+
+#modal-exit {
+    display: inline-block;
+    border-radius: 50%;
+    cursor: pointer;
+    color: rgb(34, 34, 34);
+    position: relative;
+    background: transparent;
 }

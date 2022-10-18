@@ -32,7 +32,7 @@ export const login = (user) => async (dispatch) => {
     return res
 }
 
-// storing login thunk action 
+// storing user info thunk action 
 export const restoreUser = () => async dispatch => {
     const res = await csrfFetch('/api/session')
     const userInfo = await res.json()
@@ -75,6 +75,7 @@ const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_USER:
             newState = { ...state, user: action.user }
+            console.log('new state', newState)
             return newState
         case LOGOUT_USER:
             newState = { ...state, user: null }

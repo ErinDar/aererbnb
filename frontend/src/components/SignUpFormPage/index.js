@@ -27,9 +27,20 @@ function SignupFormPage() {
                     if (signUp && signUp.errors) setErrors(Object.values(signUp.errors));
                 });
         }
-        return setErrors(['Confirm Password field must be the same as the Password field']);
+        // trying to see if I can get both validation errors and the confirm password errors to display at the same time
+        if (password !== confirmPassword) {
+            setErrors([])
+            dispatch(sessionActions.signup({ email, username, password, firstName, lastName }))
+                .catch(async (res) => {
+                    const signUp = await res.json()
+                    if (signUp && signUp.errors) {
+                        const validationErrors = Object.values(signUp.errors)
+                        const passwordErrors = ['Confirm Password field must be the same as the Password field']
+                        setErrors([...validationErrors, ...passwordErrors])
+                    }
+                })
+        }
     };
-
     return (
         <form onSubmit={handleSubmit}>
             <ul>
