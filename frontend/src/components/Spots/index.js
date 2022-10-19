@@ -12,23 +12,21 @@ function Spots() {
     }
 
     return (
-        <>
-            <h1>Testing Spots components</h1>
+        <div className='spots-body'>
             {spots.map(spot => {
                 return (
-                    <NavLink key={spot.name} to={`/spots/${spot.id}`}>
-                        <div className='spots-card'>
-                            <div>
-                                <img src='' alt={spot.name}></img>
+                    <div className='spots-card'>
+                        <NavLink key={spot.name} to={`/spots/${spot.id}`}>
+                            <img className='spot-image' src='' alt={spot.name}></img>
+                            <div className='spot-info'>
+                                <div className='spot-location'>{spot.city}, {spot.state}</div>
+                                <div className='spot-price'>${spot.price}</div>
                             </div>
-                            <div className='spot-name'>{spot.name}</div>
-                            <div className='spot-location'>{spot.city} , {spot.state} , {spot.country}</div>
-                            <div className='spot-price'>${spot.price}</div>
-                        </div>
-                    </NavLink>
+                        </NavLink>
+                    </div>
                 )
             })}
-        </>
+        </div>
     )
 }
 

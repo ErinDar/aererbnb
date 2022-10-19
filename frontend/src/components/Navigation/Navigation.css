@@ -1,0 +1,65 @@
+.text-logo {
+    display: flex;
+    font-family: 'Manrope', sans-serif;
+    flex-direction: row;
+}
+
+
+.nav-bar {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    width: 100%;
+    height: 80px;
+    z-index: 10;
+    contain: size style layout;
+    border-bottom: solid grey;
+}
+
+.nav-elements {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-menu {
+    display: flex;
+    flex-direction: row;
+    width: 80px;
+    height: 40px;
+    border-radius: 50px;
+    border: 1px solid grey;
+    background-color: transparent;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.session-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-links {
+    display: flex;
+    font-size: 16px;
+}
+
+.login-button {
+    font-size: 16px;
+}
+
+button.airbnb-logo {
+    background-color: transparent;
+    border: none;
+    color: red;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+button {
+    font-size: 30px;
+}

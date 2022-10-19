@@ -15,20 +15,31 @@ function Navigation() {
         );
     } else {
         sessionLinks = (
-            <>
+            <div className='button-links'>
+                <NavLink to="/signup" style={{ textDecoration: 'none' }}><i class="fa-solid fa-bars"></i></NavLink>
                 <LoginFormModal />
-                <NavLink to="/signup">Sign Up</NavLink>
-            </>
+            </div>
         );
     }
 
     return (
-        <ul style={{ listStyleType: 'none' }}>
-            <li>
-                <NavLink exact to="/">Home</NavLink>
-                {sessionLinks}
-            </li>
-        </ul>
+        <header className='nav-bar'>
+            <div className='nav-elements'>
+                <NavLink exact to="/" style={{ textDecoration: 'none' }}>
+                    <button className='airbnb-logo'>
+                        <div className='airbnb-icon'>
+                            <i className="fa-brands fa-airbnb fa-3x"></i>
+                        </div>
+                        <div className='text-logo'>aererbnb</div>
+                    </button>
+                </NavLink>
+            </div>
+            <div className='session-links'>
+                <button className='profile-menu'>
+                    {sessionLinks}
+                </button>
+            </div>
+        </header>
     );
 }
 

@@ -1,1 +1,23 @@
 /* TODO Add site wide styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.app-body {
+    padding: 0;
+}
+
+#root {
+    box-sizing: border-box;
+    color: rgb(34, 34, 34);
+    display: block;
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    isolation: isolate;
+    line-break: strict;
+    line-height: 20px;
+    position: relative;
+    text-size-adjust: 100%;
+}
