@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 import './Spots.css'
 
 function Spots() {
-    // const { spotId } = useParams()
     const spotsObj = useSelector(state => state.spots)
 
     let spots;

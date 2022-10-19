@@ -16,7 +16,7 @@ function Navigation() {
     } else {
         sessionLinks = (
             <div className='button-links'>
-                <NavLink to="/signup" style={{ textDecoration: 'none' }}><i class="fa-solid fa-bars"></i></NavLink>
+                <NavLink to="/signup" style={{ textDecoration: 'none' }}><i className="fa-solid fa-bars"></i></NavLink>
                 <LoginFormModal />
             </div>
         );
@@ -35,9 +35,9 @@ function Navigation() {
                 </NavLink>
             </div>
             <div className='session-links'>
-                <button className='profile-menu'>
+                <div className='profile-menu'>
                     {sessionLinks}
-                </button>
+                </div>
             </div>
         </header>
     );

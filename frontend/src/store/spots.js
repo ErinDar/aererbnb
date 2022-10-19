@@ -1,23 +1,23 @@
 import { csrfFetch } from "./csrf"
 
-const GET_USER_SPOTS = 'spots/getUserSpots'
+const GET_SPOT = 'spots/getSpot'
 const POPULATE_SPOTS = 'spots/populateSpots'
 const EDIT_SPOT = 'spots/editSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
 
 
 //get spots action(s)
-// const getUserSpots = (spot) => {
-//     return {
-//         type: GET_USER_SPOTS,
-//         spot
-//     }
-// }
-
 const populateSpots = (spots) => {
     return {
         type: POPULATE_SPOTS,
         spots
+    }
+}
+
+const getSingleSpot = (spot) => {
+    return {
+        type: GET_SPOT,
+        spot
     }
 }
 //edit spot action
@@ -51,6 +51,12 @@ export const getAllSpots = () => async (dispatch) => {
     const spots = await res.json()
     dispatch(populateSpots(spots))
 }
+
+export const getSpot = (id) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${id}`)
+    const spot = await res.json()
+    dispatch(getSingleSpot(spot))
+}
 //edit spot thunk action
 
 //delete spot thunk action
@@ -63,6 +69,9 @@ export default function spotReducer(state = initialState, action) {
     switch (action.type) {
         case POPULATE_SPOTS:
             spotObj = { ...state, ...action.spots }
+            return spotObj
+        case GET_SPOT:
+            spotObj = { ...state, ...action.spot }
             return spotObj
         default:
             return state
