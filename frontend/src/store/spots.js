@@ -25,26 +25,25 @@ const getSingleSpot = (spot) => {
 //delete spot action
 
 //create spot thunk action
-// export const createSpot = (spot) => async (dispatch) => {
-//     const { name, address, city, state, country, description, price, lat, lng } = spot
-//     const res = await csrfFetch('/api/spots', {
-//         method: 'POST',
-//         body: JSON.stringify({
-//             name,
-//             address,
-//             city,
-//             state,
-//             country,
-//             description,
-//             price,
-//             lat,
-//             lng
-//         })
-//     })
-//     const spotInfo = await res.json()
-//     dispatch(getUserSpots(spotInfo))
-//     return res
-// }
+export const createSpot = (spot) => async (dispatch) => {
+    const { name, address, city, state, country, description, price } = spot
+    const res = await csrfFetch('/api/spots', {
+        method: 'POST',
+        body: JSON.stringify({
+            name,
+            address,
+            city,
+            state,
+            country,
+            description,
+            price,
+
+        })
+    })
+    const spotInfo = await res.json()
+    dispatch(getSingleSpot(spotInfo))
+    return res
+}
 //get spots thunk action
 export const getAllSpots = () => async (dispatch) => {
     const res = await csrfFetch('/api/spots')

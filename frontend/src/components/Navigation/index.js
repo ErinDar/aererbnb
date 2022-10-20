@@ -15,10 +15,12 @@ function Navigation() {
         );
     } else {
         sessionLinks = (
-            <div className='button-links'>
-                <NavLink to="/signup" style={{ textDecoration: 'none' }}><i className="fa-solid fa-bars"></i></NavLink>
-                <LoginFormModal />
-            </div>
+            <div>
+                <div className='signup-link login-link'>
+                    <NavLink to="/signup" style={{ textDecoration: 'none' }}><i className="fa-solid fa-bars"></i></NavLink>
+                    <LoginFormModal />
+                </div>
+            </div >
         );
     }
 
@@ -34,8 +36,15 @@ function Navigation() {
                     </button>
                 </NavLink>
             </div>
-            <div className='session-links'>
-                <div className='profile-menu'>
+            {/* <div>
+                <NavLink exact to='/hosting'>
+                    <button>
+                        Become a Host
+                    </button>
+                </NavLink>
+            </div> */}
+            <div>
+                <div>
                     {sessionLinks}
                 </div>
             </div>
