@@ -49,7 +49,7 @@ const getSingleSpot = (spot) => {
 export const getAllSpots = () => async (dispatch) => {
     const res = await csrfFetch('/api/spots')
     const spots = await res.json()
-    dispatch(populateSpots(spots))
+    dispatch(populateSpots(spots.Spots))
 }
 
 export const getSpot = (id) => async (dispatch) => {
@@ -62,17 +62,27 @@ export const getSpot = (id) => async (dispatch) => {
 //delete spot thunk action
 
 const initialState = {
-    Spots: []
+    allSpots: {},
+    singleSpot: {}
 }
+
 export default function spotReducer(state = initialState, action) {
-    let spotObj = {}
     switch (action.type) {
         case POPULATE_SPOTS:
-            spotObj = { ...state, ...action.spots }
-            return spotObj
+            const allSpots = {}
+            action.spots.forEach(spot => {
+                allSpots[spot.id] = spot
+            })
+            return {
+                ...state,
+                allSpots: { ...allSpots }
+            }
         case GET_SPOT:
-            spotObj = { ...state, ...action.spot }
-            return spotObj
+            const singleSpot = { ...action.spot }
+            return {
+                ...state,
+                singleSpot: { ...singleSpot }
+            }
         default:
             return state
     }

@@ -75,7 +75,6 @@ const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_USER:
             newState = { ...state, user: action.user }
-            console.log('new state', newState)
             return newState
         case LOGOUT_USER:
             newState = { ...state, user: null }
