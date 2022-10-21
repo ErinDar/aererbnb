@@ -56,7 +56,7 @@ const requireAuth = (req, res, next) => {
     } else {
         res.status(401)
         return res.json({
-            message: "Authentication required",
+            message: "Authentication required: Please Log in or Sign Up",
             statusCode: 401
         })
     }
