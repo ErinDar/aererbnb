@@ -27,7 +27,6 @@ export default function SpotForm({ spot, formType }) {
                     else setErrors([spotErrors.message])
                 }
             })
-        console.log('newspot', newSpot)
         dispatch(spotActions.getSpot(newSpot))
         history.push(`/spots/${newSpot.id}`)
     }
