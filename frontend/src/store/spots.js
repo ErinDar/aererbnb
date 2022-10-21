@@ -22,9 +22,12 @@ const getSingleSpot = (spot) => {
 }
 
 // edit spot action
-const editSpot = (spot) => {
-
-}
+// const editSpot = (spot) => {
+//     return {
+//         type: EDIT_SPOT,
+//         spot
+//     }
+// }
 //delete spot action
 const deleteSpot = (spot) => {
     return {
@@ -81,6 +84,7 @@ export const getSpot = (id) => async (dispatch) => {
 //     dispatch(getSingleSpot(spotInfo))
 //     return res
 // }
+
 //delete spot thunk action
 
 const initialState = {
@@ -102,7 +106,7 @@ export default function spotReducer(state = initialState, action) {
         case GET_SPOT:
             const singleSpot = { ...action.spot }
             return {
-                ...state,
+                allSpots: { ...state.allSpots },
                 singleSpot: { ...singleSpot }
             }
         default:

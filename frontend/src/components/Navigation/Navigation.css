@@ -35,18 +35,82 @@
     gap: 15px;
 }
 
+.logged-in-user-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .login-button {
+    background: none;
+    border: none;
+}
+
+.profile-button {
+    position: static;
     background: none;
     border: none;
 }
 
 .fa-bars {
     color: grey;
+    cursor: pointer;
+    font-size: 30px;
 }
 
 .fa-user-circle {
     color: grey;
     cursor: pointer;
+    font-size: 30px;
+}
+
+.hosting-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color .25s ease;
+    height: 40px;
+    width: 120px;
+}
+
+.hosting-button:hover {
+    background-color: #EAECEE;
+    border-radius: 20px;
+}
+
+.logged-in-hosting {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color .25s ease;
+    height: 40px;
+    width: 140px;
+}
+
+.logged-in-hosting:hover {
+    background-color: #EAECEE;
+    border-radius: 20px;
+}
+
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 150px;
+    height: 200px;
+    right: 20px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 5px;
+    gap: 15px;
+    padding: 5px;
+}
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 button.airbnb-logo {
@@ -57,8 +121,4 @@ button.airbnb-logo {
     display: flex;
     align-items: center;
     font-size: 16px;
-}
-
-button {
-    font-size: 30px;
 }

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
+import DropDownMenu from "./DropDownMenu";
 
-function ProfileButton({ user }) {
+export default function ProfileButton({ user }) {
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
 
@@ -30,25 +31,16 @@ function ProfileButton({ user }) {
     };
 
     return (
-        <section>
-            <button onClick={openMenu}>
+        <div>
+            <button onClick={openMenu} className='profile-button'>
                 <i className="fas fa-user-circle" />
             </button>
             {showMenu && (
-                <ul className="profile-dropdown">
-                    <li>{user.username}</li>
-                    <li>{user.email}</li>
-                    <div>
-                        <NavLink to='/my-listings'>Manage Listings</NavLink>
-                    </div>
-                    <div>
-                        <NavLink to='/profile'>Account</NavLink>
-                    </div>
+                <div className='menu-items'>
+                    <DropDownMenu user={user} />
                     <button onClick={logout}>Log Out</button>
-                </ul>
+                </div>
             )}
-        </section>
+        </div>
     );
 }
-
-export default ProfileButton;

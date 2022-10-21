@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Modal } from '../../context/Modal';
+// import { NavLink } from 'react-router-dom';
+import { Modal } from '../../context/Modal'
 import LoginForm from './LoginForm';
 
-function LoginFormModal() {
+export default function LoginFormModal() {
     const [showModal, setShowModal] = useState(false);
 
     return (
@@ -24,5 +24,3 @@ function LoginFormModal() {
         </>
     );
 }
-
-export default LoginFormModal;

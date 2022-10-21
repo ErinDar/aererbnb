@@ -52,8 +52,8 @@
     position: relative;
     width: 100%;
     min-height: 250px;
-    max-height: 400px;
-    max-width: 500px;
+    max-height: 700px;
+    max-width: 600px;
     background-color: white;
     border-radius: 15px;
 }

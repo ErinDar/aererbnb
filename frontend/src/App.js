@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
-import SignupFormPage from './components/SignUpFormPage';
+import SignUpFormModal from './components/SignUpFormModal';
 import * as spotActions from './store/spots'
 import * as sessionActions from './store/session'
 import Navigation from './components/Navigation'
@@ -24,18 +24,18 @@ function App() {
             <Navigation />
             {isLoaded && (
                 <Switch>
-                    <Route path='/signup'>
-                        <SignupFormPage />
-                    </Route>
                     <Route exact path='/'>
-                        {/* <Spots /> */}
+                        <Spots />
                     </Route>
                     <Route exact path='/spots/:spotId'>
-                        {/* <SpotDetails /> */}
-                        {/* <SpotReview /> */}
+                        <SpotDetails />
+                        <SpotReview />
                     </Route>
                     <Route exact path='/hosting'>
                         {/* <CreateSpotForm /> */}
+                    </Route>
+                    <Route exact path='/my-listings'>
+
                     </Route>
                 </Switch>
             )}

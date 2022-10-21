@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import * as sessionActions from '../../store/session'
 import { useDispatch } from 'react-redux'
 
 export default function HostLoginForm() {
     const dispatch = useDispatch()
-    const history = useHistory()
+    const sessionUser = useSelector(state => state.session.user)
     const [password, setPassword] = useState('')
     const [credential, setCredential] = useState('')
     const [errors, setErrors] = useState([])
@@ -21,12 +22,12 @@ export default function HostLoginForm() {
                     else setErrors([loginErrors.message])
                 }
             })
-        history.push('/hosting')
     }
+    if (sessionUser) return <Redirect to="/hosting" />
 
     return (
         <form onSubmit={handleSubmit}>
-            <ul>
+            <ul className='error-messages'>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
             <label>
@@ -47,7 +48,9 @@ export default function HostLoginForm() {
                     required
                 />
             </label>
-            <button type='submit' className='button'>Log In</button>
+            <div className='submit-button'>
+                <button type='submit' className='login-submit-button'>Log In</button>
+            </div>
         </form>
     )
 }

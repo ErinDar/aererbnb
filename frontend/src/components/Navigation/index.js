@@ -3,25 +3,32 @@ import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import LoginFormModal from '../LoginFormModal';
+import SignUpFormModal from '../SignUpFormModal';
 import HostFormModal from '../HostFormModal';
 import './Navigation.css';
 
 
-function Navigation() {
+export default function Navigation() {
     const sessionUser = useSelector(state => state.session.user);
 
     let sessionLinks;
-    // if some is logged in profile button is visible
     if (sessionUser) {
         sessionLinks = (
-            <ProfileButton user={sessionUser} />
+            <div>
+                <div className='logged-in-user-links'>
+                    <NavLink to='/hosting'>
+                        <button className='logged-in-hosting'>Switch to Hosting</button>
+                    </NavLink>
+                    <ProfileButton user={sessionUser} />
+                </div>
+            </div>
         );
     } else {
-        // if not the log in and sign up buttons are
         sessionLinks = (
             <div>
                 <div className='user-links'>
-                    <NavLink to="/signup" style={{ textDecoration: 'none' }}><i className="fa-solid fa-bars fa-xl"></i></NavLink>
+                    <HostFormModal />
+                    <SignUpFormModal />
                     <LoginFormModal />
                 </div>
             </div >
@@ -46,5 +53,3 @@ function Navigation() {
         </header>
     );
 }
-
-export default Navigation;

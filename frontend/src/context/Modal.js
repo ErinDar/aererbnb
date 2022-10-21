@@ -35,7 +35,7 @@ export function Modal({ onClose, children }) {
                 <header className='modal-header'>
                     <div className='modal-title'>
                         <div>
-                            Log In
+                            Log In or Sign Up
                         </div>
                     </div>
                 </header>

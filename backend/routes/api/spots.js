@@ -219,7 +219,7 @@ router.get('/', validateQuery, async (req, res, next) => {
     return res.json({ Spots: response })
 })
 
-router.get('/current', requireAuth, async (req, res, next) => {
+router.get('/current', async (req, res, next) => {
     const { user } = req
     const { id } = user
     // Only works locally
