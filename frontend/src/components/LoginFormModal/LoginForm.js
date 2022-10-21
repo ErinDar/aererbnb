@@ -24,7 +24,7 @@ function LoginForm() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <ul>
+            <ul className='error-messages'>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
             <label>
@@ -45,7 +45,9 @@ function LoginForm() {
                     required
                 />
             </label>
-            <button type='submit' className='button'>Log In</button>
+            <div className='submit-button'>
+                <button type='submit' className='login-submit-button'>Log In</button>
+            </div>
         </form>
     )
 }

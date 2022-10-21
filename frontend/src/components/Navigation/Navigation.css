@@ -4,7 +4,6 @@
     flex-direction: row;
 }
 
-
 .nav-bar {
     display: flex;
     position: sticky;
@@ -13,7 +12,7 @@
     height: 80px;
     z-index: 10;
     contain: size style layout;
-    border-bottom: solid grey;
+    border-bottom: solid #EAECEE
 }
 
 .nav-elements {
@@ -21,19 +20,6 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-}
-
-.profile-menu {
-    display: flex;
-    flex-direction: row;
-    width: 80px;
-    height: 40px;
-    border-radius: 50px;
-    border: 1px solid grey;
-    background-color: transparent;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
 }
 
 .session-links {
@@ -46,7 +32,21 @@
 .user-links {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    gap: 15px;
+}
+
+.login-button {
+    background: none;
+    border: none;
+}
+
+.fa-bars {
+    color: grey;
+}
+
+.fa-user-circle {
+    color: grey;
+    cursor: pointer;
 }
 
 button.airbnb-logo {

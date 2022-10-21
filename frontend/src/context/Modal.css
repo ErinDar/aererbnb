@@ -1,5 +1,5 @@
-.border-line {
-    border-bottom: 3px black;
+* {
+    font-family: 'Manrope', sans-serif;
 }
 
 .exit-button {
@@ -7,10 +7,6 @@
     position: absolute;
     top: 16px;
     left: 24px;
-}
-
-h1 {
-    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
 }
 
 .modal-header {
@@ -27,6 +23,9 @@ h1 {
     box-sizing: border-box;
 }
 
+.fa-xmark {
+    cursor: pointer;
+}
 
 #modal {
     position: fixed;
@@ -52,15 +51,9 @@ h1 {
     display: block;
     position: relative;
     width: 100%;
-    max-width: 600px;
+    min-height: 250px;
+    max-height: 400px;
+    max-width: 500px;
     background-color: white;
-}
-
-#modal-exit {
-    display: inline-block;
-    border-radius: 50%;
-    cursor: pointer;
-    color: rgb(34, 34, 34);
-    position: relative;
-    background: transparent;
+    border-radius: 15px;
 }

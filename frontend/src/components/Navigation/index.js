@@ -9,7 +9,6 @@ import './Navigation.css';
 
 function Navigation() {
     const sessionUser = useSelector(state => state.session.user);
-    console.log('user', sessionUser)
 
     let sessionLinks;
     // if some is logged in profile button is visible
@@ -41,13 +40,6 @@ function Navigation() {
                     </button>
                 </NavLink>
             </div>
-            {/* <div>
-                <NavLink exact to='/hosting'>
-                    <button>
-                        Become a Host
-                    </button>
-                </NavLink>
-            </div> */}
             <div className='session-links'>
                 {sessionLinks}
             </div>

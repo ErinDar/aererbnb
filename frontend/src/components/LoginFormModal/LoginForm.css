@@ -1,3 +1,30 @@
-.button {
-    background-color: red;
+.submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    background-color: #D70040;
+    border-radius: 15px;
+    color: white;
+    font-size: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+}
+
+input {
+    display: flex;
+    border-radius: 5px;
+    width: 280px;
 }

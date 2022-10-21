@@ -21,26 +21,24 @@ function App() {
 
     return (
         <>
-            <div className='app-body'>
-                <Navigation />
-                {isLoaded && (
-                    <Switch>
-                        <Route path='/signup'>
-                            {/* <SignupFormPage /> */}
-                        </Route>
-                        <Route exact path='/'>
-                            {/* <Spots /> */}
-                        </Route>
-                        <Route exact path='/spots/:spotId'>
-                            {/* <SpotDetails /> */}
-                            {/* <SpotReview /> */}
-                        </Route>
-                        <Route exact path='/hosting'>
-                            {/* <CreateSpotForm /> */}
-                        </Route>
-                    </Switch>
-                )}
-            </div>
+            <Navigation />
+            {isLoaded && (
+                <Switch>
+                    <Route path='/signup'>
+                        <SignupFormPage />
+                    </Route>
+                    <Route exact path='/'>
+                        {/* <Spots /> */}
+                    </Route>
+                    <Route exact path='/spots/:spotId'>
+                        {/* <SpotDetails /> */}
+                        {/* <SpotReview /> */}
+                    </Route>
+                    <Route exact path='/hosting'>
+                        {/* <CreateSpotForm /> */}
+                    </Route>
+                </Switch>
+            )}
         </>
     )
 }
