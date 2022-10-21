@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as spotActions from '../../store/spots'
 import { useDispatch } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 export default function SpotForm({ spot, formType }) {
     const dispatch = useDispatch()
-    // const history = useHistory()
+    const history = useHistory()
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -15,11 +15,11 @@ export default function SpotForm({ spot, formType }) {
     const [price, setPrice] = useState('')
     const [errors, setErrors] = useState([])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
         spot = { ...spot, name, address, city, state, country, description, price }
-        return dispatch(spotActions.createSpot(spot))
+        const newSpot = await dispatch(spotActions.createSpot(spot))
             .catch(async (res) => {
                 const spotErrors = await res.json()
                 if (spotErrors) {
@@ -27,7 +27,9 @@ export default function SpotForm({ spot, formType }) {
                     else setErrors([spotErrors.message])
                 }
             })
-        // history.push(`/spots/${spot.id}`)
+        console.log('newspot', newSpot)
+        dispatch(spotActions.getSpot(newSpot))
+        history.push(`/spots/${newSpot.id}`)
     }
 
     return (
@@ -91,14 +93,14 @@ export default function SpotForm({ spot, formType }) {
                     onChange={(e) => setPrice(e.target.value)}
                 />
             </label>
-            <label>
+            {/* <label>
                 Listing Images
                 <input
                     type='image'
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
                 />
-            </label>
+            </label> */}
             <button type='submit' className='create-spot'>Create Listing</button>
         </form>
     )

@@ -51,8 +51,9 @@ export const createSpot = (spot) => async (dispatch) => {
         })
     })
     const spotInfo = await res.json()
+    console.log('spotInfo creation', spotInfo)
     dispatch(getSingleSpot(spotInfo))
-    return res
+    return spotInfo
 }
 //get spots thunk action
 export const getAllSpots = () => async (dispatch) => {
@@ -106,7 +107,7 @@ export default function spotReducer(state = initialState, action) {
         case GET_SPOT:
             const singleSpot = { ...action.spot }
             return {
-                ...state.allSpots,
+                ...state,
                 singleSpot: { ...singleSpot }
             }
         default:

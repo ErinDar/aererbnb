@@ -8,7 +8,8 @@ import Navigation from './components/Navigation'
 import Spots from './components/Spots'
 import SpotDetails from './components/SpotDetails';
 import SpotReview from './components/Reviews';
-// import CreateSpotForm from './components/CreateSpot';
+import CreateSpotForm from './components/CreateEditForm/CreateSpotForm';
+import CreateEditForm from './components/CreateEditForm'
 
 function App() {
     const dispatch = useDispatch()
@@ -32,9 +33,15 @@ function App() {
                         <SpotReview />
                     </Route>
                     <Route exact path='/hosting'>
-                        {/* <CreateSpotForm /> */}
+                        <CreateEditForm />
+                    </Route>
+                    <Route exact path='/hosting/create'>
+                        <CreateSpotForm />
                     </Route>
                     <Route exact path='/my-listings'>
+
+                    </Route>
+                    <Route exact path='/my-listings/edit'>
 
                     </Route>
                 </Switch>

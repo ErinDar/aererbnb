@@ -16,7 +16,7 @@ export default function Navigation() {
         sessionLinks = (
             <div>
                 <div className='logged-in-user-links'>
-                    <NavLink to='/hosting'>
+                    <NavLink exact to='/hosting'>
                         <button className='logged-in-hosting'>Switch to Hosting</button>
                     </NavLink>
                     <ProfileButton user={sessionUser} />
