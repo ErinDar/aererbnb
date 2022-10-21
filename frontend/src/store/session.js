@@ -74,10 +74,10 @@ const sessionReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case LOGIN_USER:
-            newState = { ...state, user: action.user }
+            newState = { user: action.user }
             return newState
         case LOGOUT_USER:
-            newState = { ...state, user: null }
+            newState = { user: null }
             return newState
         default:
             return state
