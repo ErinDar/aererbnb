@@ -1,6 +1,6 @@
 import { csrfFetch } from "./csrf"
 
-const GET_SPOT = 'spots/getSpot'
+const GET_SPOT = 'spots/getSingleSpot'
 const POPULATE_SPOTS = 'spots/populateSpots'
 const EDIT_SPOT = 'spots/editSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
@@ -20,10 +20,17 @@ const getSingleSpot = (spot) => {
         spot
     }
 }
-//edit spot action
 
+// edit spot action
+const editSpot = (spot) => {
+
+}
 //delete spot action
-
+const deleteSpot = (spot) => {
+    return {
+        type: DELETE_SPOT
+    }
+}
 //create spot thunk action
 export const createSpot = (spot) => async (dispatch) => {
     const { name, address, city, state, country, description, price } = spot
@@ -57,7 +64,23 @@ export const getSpot = (id) => async (dispatch) => {
     dispatch(getSingleSpot(spot))
 }
 //edit spot thunk action
-
+// export const updateSpot = (spotId) => async (dispatch) => {
+//     const res = await csrfFetch(`/api/spots/${spotId}`, {
+//         method: 'PUT',
+//         body: JSON.stringify({
+//             name,
+//             address,
+//             city,
+//             state,
+//             country,
+//             description,
+//             price
+//         })
+//     })
+//     const spotInfo = await res.json()
+//     dispatch(getSingleSpot(spotInfo))
+//     return res
+// }
 //delete spot thunk action
 
 const initialState = {

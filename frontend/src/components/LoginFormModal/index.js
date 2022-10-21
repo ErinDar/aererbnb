@@ -8,13 +8,13 @@ function LoginFormModal() {
 
     return (
         <>
-            <div>
+            {/* <div>
                 <NavLink to="/hosting">
                     <button onClick={() => setShowModal(true)} className='hosting-button'>Become a Host</button>
                 </NavLink>
-            </div>
+            </div> */}
             <div>
-                <button onClick={() => setShowModal(true)} className='login-button'><i className="fa-regular fa-user"></i></button>
+                <button onClick={() => setShowModal(true)} className='login-button'><i className="fas fa-user-circle" /></button>
             </div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import * as sessionActions from '../../store/session';
 
@@ -29,7 +30,7 @@ function ProfileButton({ user }) {
     };
 
     return (
-        <>
+        <section>
             <button onClick={openMenu}>
                 <i className="fas fa-user-circle" />
             </button>
@@ -37,12 +38,16 @@ function ProfileButton({ user }) {
                 <ul className="profile-dropdown">
                     <li>{user.username}</li>
                     <li>{user.email}</li>
-                    <li>
-                        <button onClick={logout}>Log Out</button>
-                    </li>
+                    <div>
+                        <NavLink to='/my-listings'>Manage Listings</NavLink>
+                    </div>
+                    <div>
+                        <NavLink to='/profile'>Account</NavLink>
+                    </div>
+                    <button onClick={logout}>Log Out</button>
                 </ul>
             )}
-        </>
+        </section>
     );
 }
 

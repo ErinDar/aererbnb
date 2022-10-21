@@ -8,8 +8,7 @@ import Navigation from './components/Navigation'
 import Spots from './components/Spots'
 import SpotDetails from './components/SpotDetails';
 import SpotReview from './components/Reviews';
-import CreateSpot from './components/CreateSpot';
-import CreateSpotForm from './components/CreateSpot';
+// import CreateSpotForm from './components/CreateSpot';
 
 function App() {
     const dispatch = useDispatch()
@@ -27,17 +26,17 @@ function App() {
                 {isLoaded && (
                     <Switch>
                         <Route path='/signup'>
-                            <SignupFormPage />
+                            {/* <SignupFormPage /> */}
                         </Route>
                         <Route exact path='/'>
-                            <Spots />
+                            {/* <Spots /> */}
                         </Route>
                         <Route exact path='/spots/:spotId'>
-                            <SpotDetails />
-                            <SpotReview />
+                            {/* <SpotDetails /> */}
+                            {/* <SpotReview /> */}
                         </Route>
                         <Route exact path='/hosting'>
-                            <CreateSpotForm />
+                            {/* <CreateSpotForm /> */}
                         </Route>
                     </Switch>
                 )}

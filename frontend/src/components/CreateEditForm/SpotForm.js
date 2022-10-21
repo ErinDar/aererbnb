@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import * as spotActions from '../../store/spots'
-import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
-export default function CreateSpotForm() {
+export default function SpotForm({ spot, formType }) {
     const dispatch = useDispatch()
+    // const history = useHistory()
     const [name, setName] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
@@ -12,13 +13,13 @@ export default function CreateSpotForm() {
     const [country, setCountry] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
-    const [image, setImage] = useState([])
     const [errors, setErrors] = useState([])
 
     const handleSubmit = (e) => {
         e.preventDefault()
         setErrors([])
-        return dispatch(spotActions.createSpot({ name, address, city, state, country, description, price }))
+        spot = { ...spot, name, address, city, state, country, description, price }
+        return dispatch(spotActions.createSpot(spot))
             .catch(async (res) => {
                 const spotErrors = await res.json()
                 if (spotErrors) {
@@ -26,10 +27,12 @@ export default function CreateSpotForm() {
                     else setErrors([spotErrors.message])
                 }
             })
+        // history.push(`/spots/${spot.id}`)
     }
 
     return (
         <form onSubmit={handleSubmit}>
+            <h2>{formType}</h2>
             <ul>
                 {errors.map((error, idx) => <li key={idx}>{error}</li>)}
             </ul>
