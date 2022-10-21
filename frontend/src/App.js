@@ -10,6 +10,7 @@ import SpotDetails from './components/SpotDetails';
 import SpotReview from './components/Reviews';
 import CreateSpotForm from './components/CreateEditForm/CreateSpotForm';
 import CreateEditForm from './components/CreateEditForm'
+import Listings from './components/UserInfo/UserListings';
 
 function App() {
     const dispatch = useDispatch()
@@ -39,7 +40,7 @@ function App() {
                         <CreateSpotForm />
                     </Route>
                     <Route exact path='/my-listings'>
-
+                        <Listings />
                     </Route>
                     <Route exact path='/my-listings/edit'>
 

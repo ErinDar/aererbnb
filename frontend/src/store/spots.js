@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf"
 
 const GET_SPOT = 'spots/getSingleSpot'
 const POPULATE_SPOTS = 'spots/populateSpots'
+const POPULATE_USER_SPOTS = 'spots/populateUserSpots'
 const EDIT_SPOT = 'spots/editSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
 
@@ -14,6 +15,12 @@ const populateSpots = (spots) => {
     }
 }
 
+const populateUserSpots = (spots) => {
+    return {
+        type: POPULATE_USER_SPOTS,
+        spots
+    }
+}
 const getSingleSpot = (spot) => {
     return {
         type: GET_SPOT,
@@ -31,7 +38,8 @@ const getSingleSpot = (spot) => {
 //delete spot action
 const deleteSpot = (spot) => {
     return {
-        type: DELETE_SPOT
+        type: DELETE_SPOT,
+        spot
     }
 }
 //create spot thunk action
@@ -51,7 +59,6 @@ export const createSpot = (spot) => async (dispatch) => {
         })
     })
     const spotInfo = await res.json()
-    console.log('spotInfo creation', spotInfo)
     dispatch(getSingleSpot(spotInfo))
     return spotInfo
 }
@@ -66,6 +73,12 @@ export const getSpot = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${id}`)
     const spot = await res.json()
     dispatch(getSingleSpot(spot))
+}
+
+export const getUserSpots = () => async (dispatch) => {
+    const res = await csrfFetch('/api/spots/current')
+    const userSpots = await res.json()
+    dispatch(populateUserSpots(userSpots.Spots))
 }
 //edit spot thunk action
 // export const updateSpot = (spotId) => async (dispatch) => {
@@ -87,13 +100,22 @@ export const getSpot = (id) => async (dispatch) => {
 // }
 
 //delete spot thunk action
-
+export const deleteSpots = (spot) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spot}`, {
+        method: 'DELETE'
+    })
+    const { id: deletedSpot } = res.json()
+    dispatch(deleteSpot(deletedSpot))
+    return deletedSpot
+}
 const initialState = {
     allSpots: {},
-    singleSpot: {}
+    singleSpot: {},
+    userSpots: {}
 }
 
 export default function spotReducer(state = initialState, action) {
+    // let newState;
     switch (action.type) {
         case POPULATE_SPOTS:
             const allSpots = {}
@@ -104,12 +126,22 @@ export default function spotReducer(state = initialState, action) {
                 ...state,
                 allSpots: { ...allSpots }
             }
+        case POPULATE_USER_SPOTS:
+            const userSpots = {}
+            action.spots.forEach(spot => {
+                userSpots[spot.id] = spot
+            })
+            return {
+                ...state,
+                userSpots: { ...userSpots }
+            }
         case GET_SPOT:
             const singleSpot = { ...action.spot }
             return {
                 ...state,
                 singleSpot: { ...singleSpot }
             }
+        // case DELETE_SPOT:
         default:
             return state
     }
