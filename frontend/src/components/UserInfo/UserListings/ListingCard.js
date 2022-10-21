@@ -4,7 +4,7 @@ import * as spotActions from '../../../store/spots'
 
 export default function ListingCard({ spot }) {
     const dispatch = useDispatch()
-
+    console.log('spots', spot)
     const deleteSpot = (e) => {
         e.preventDefault()
         dispatch(spotActions.deleteSpots(spot.id))

@@ -8,7 +8,7 @@ export default function Listings() {
     const dispatch = useDispatch()
     const user = useSelector(state => state.session.user)
     const spots = useSelector(state => state.spots.allSpots)
-
+    console.log('user', user)
     let spotsArr = []
     for (let spot in spots) {
         spotsArr.push(spots[spot])

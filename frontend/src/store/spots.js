@@ -104,8 +104,8 @@ export const deleteSpots = (spot) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${spot}`, {
         method: 'DELETE'
     })
-    const { id: deletedSpot } = res.json()
-    dispatch(deleteSpot(deletedSpot))
+    const deletedSpot = res.json()
+    dispatch(deleteSpot(spot))
     return deletedSpot
 }
 const initialState = {
@@ -115,7 +115,7 @@ const initialState = {
 }
 
 export default function spotReducer(state = initialState, action) {
-    // let newState;
+    let newState = {}
     switch (action.type) {
         case POPULATE_SPOTS:
             const allSpots = {}
@@ -141,7 +141,13 @@ export default function spotReducer(state = initialState, action) {
                 ...state,
                 singleSpot: { ...singleSpot }
             }
-        // case DELETE_SPOT:
+        case DELETE_SPOT:
+            allSpots = { ...allSpots }
+            singleSpot = {}
+            userSpots = { ...userSpots }
+            newState = { ...state, allSpots: { ...allSpots }, singleSpot: {}, userSpots: { ...userSpots } }
+            delete newState.allSpots[action.spot]
+            delete newState.userSpots[action.spot]
         default:
             return state
     }
