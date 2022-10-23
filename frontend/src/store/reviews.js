@@ -13,12 +13,18 @@ const populateReviews = (reviews) => {
 }
 
 const newReview = (review) => {
-
+    return {
+        type: NEW_REVIEW,
+        review
+    }
 }
 export const loadReviews = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${id}/reviews`)
-    const reviews = await res.json()
-    dispatch(populateReviews(reviews.Reviews))
+    if (res.ok) {
+        const reviews = await res.json()
+        dispatch(populateReviews(reviews.Reviews))
+        return reviews
+    }
 }
 
 export const createReview = (id, reviewInfo) => async (dispatch) => {
@@ -28,7 +34,7 @@ export const createReview = (id, reviewInfo) => async (dispatch) => {
     })
     if (res.ok) {
         const review = await res.json()
-        dispatch(newReview(review))
+        dispatch(loadReviews(id))
         return review
     }
 }

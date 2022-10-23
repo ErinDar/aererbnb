@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import { Modal } from '../../context/Modal';
 import * as reviewActions from "../../store/reviews"
 import * as spotActions from '../../store/spots'
 import ReviewDetails from "../ReviewDetails"
-import ReviewButton from "../ReviewFormModal"
+import CreateReview from "../ReviewFormModal/ReviewModal"
 import './Reviews.css'
 
 export default function SpotReview() {
@@ -14,24 +15,24 @@ export default function SpotReview() {
     const spotObj = useSelector(state => state.spots.allSpots[spotId])
     const user = useSelector(state => state.session.user)
     const [isLoaded, setIsLoaded] = useState(false)
-    const [showButton, setShowButton] = useState(false)
+    const [showModal, setShowModal] = useState(false)
 
+    useEffect(() => {
+        dispatch(spotActions.getSpot(spotId))
+            .then(() => dispatch(reviewActions.loadReviews(spotId)))
+            .then(() => setIsLoaded(true))
+    }, [dispatch, isLoaded])
+
+    let showButton;
     let reviews = []
     for (let review in reviewObj) {
         reviews.push(reviewObj[review])
     }
 
-    useEffect(() => {
-        // if (!reviews.find(review => review.userId === user.id)) setShowButton(true)
-        dispatch(spotActions.getSpot(spotId))
-            .then(() => dispatch(reviewActions.loadReviews(spotId)))
-            .then(() => setIsLoaded(true))
-            .then(() => {
-                if (user) {
-                    if (!reviews.find(review => review.userId === user.id)) setShowButton(true)
-                }
-            })
-    }, [dispatch, showButton, isLoaded, user])
+    if (user) {
+        let foundUserReview = reviews.find(review => review.userId === user.id)
+        if (foundUserReview === undefined) showButton = true
+    }
 
     return (
         <>
@@ -49,10 +50,15 @@ export default function SpotReview() {
                         </div>
                         {showButton && user.id !== spotObj.ownerId &&
                             <div className='create-review'>
-                                <ReviewButton spot={spotObj} />
+                                <button onClick={() => setShowModal(true)}>Leave a Review</button>
                             </div>
                         }
                     </div>
+                    {showModal && (
+                        <Modal onClose={() => setShowModal(false)}>
+                            <CreateReview spot={spotObj} spotId={spotId} setShowModal={setShowModal} />
+                        </Modal>
+                    )}
                 </div>
             )}
         </>

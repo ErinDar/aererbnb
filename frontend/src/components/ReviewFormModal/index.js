@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import CreateReview from './ReviewModal';
 
-export default function ReviewButton({ spot }) {
+export default function ReviewButton(spotObj) {
+    // console.log('spotObj', spotObj)
+
     const [showModal, setShowModal] = useState(false)
 
     return (
@@ -12,7 +14,7 @@ export default function ReviewButton({ spot }) {
             </div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <CreateReview spot={spot} />
+                    <CreateReview spot={spotObj.spot} />
                 </Modal>
             )}
         </>

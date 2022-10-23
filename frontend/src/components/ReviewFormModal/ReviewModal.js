@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as reviewActions from "../../store/reviews";
+import * as spotActions from '../../store/spots'
 
-export default function CreateReview({ spotInfo }) {
+export default function CreateReview(spotObj) {
     const dispatch = useDispatch()
     const history = useHistory()
     const [review, setReview] = useState('')
@@ -11,17 +12,17 @@ export default function CreateReview({ spotInfo }) {
     const [errors, setErrors] = useState([])
 
     const redirect = () => {
-        return history.push(`/spots/${spotInfo.id}`)
+        return history.push(`/spots/${spotObj.spotId}`)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
         const reviewInfo = {
-            review,
+            review: review,
             stars: rating
         }
-        const review = dispatch(reviewActions.createReview(spotInfo.id, reviewInfo))
+        await dispatch(reviewActions.createReview(spotObj.spotId, reviewInfo))
             .catch(async (res) => {
                 const reviewErrors = await res.json()
                 if (reviewErrors) {
@@ -29,8 +30,12 @@ export default function CreateReview({ spotInfo }) {
                     else setErrors([reviewErrors.message])
                 }
             })
-        if (review) return redirect()
+        await dispatch(spotActions.getAllSpots())
+            // dispatch(spotActions.getSpot(spotObj.spotId))
+            .then(() => spotObj.setShowModal(false))
+            .then(() => redirect())
     }
+
     return (
         <form onSubmit={handleSubmit}>
             <ul className="error-messages">
