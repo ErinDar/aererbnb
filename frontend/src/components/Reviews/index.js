@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { loadReviews } from "../../store/reviews"
+import * as reviewActions from "../../store/reviews"
+import * as spotActions from '../../store/spots'
 import ReviewDetails from "../ReviewDetails"
+import ReviewButton from "../ReviewFormModal"
 import './Reviews.css'
 
 export default function SpotReview() {
@@ -10,7 +12,9 @@ export default function SpotReview() {
     const { spotId } = useParams()
     const reviewObj = useSelector(state => state.reviews.allReviews)
     const spotObj = useSelector(state => state.spots.allSpots[spotId])
+    const user = useSelector(state => state.session.user)
     const [isLoaded, setIsLoaded] = useState(false)
+    const [showButton, setShowButton] = useState(false)
 
     let reviews = []
     for (let review in reviewObj) {
@@ -18,9 +22,16 @@ export default function SpotReview() {
     }
 
     useEffect(() => {
-        dispatch(loadReviews(spotId))
+        // if (!reviews.find(review => review.userId === user.id)) setShowButton(true)
+        dispatch(spotActions.getSpot(spotId))
+            .then(() => dispatch(reviewActions.loadReviews(spotId)))
             .then(() => setIsLoaded(true))
-    }, [dispatch])
+            .then(() => {
+                if (user) {
+                    if (!reviews.find(review => review.userId === user.id)) setShowButton(true)
+                }
+            })
+    }, [dispatch, showButton, isLoaded, user])
 
     return (
         <>
@@ -36,6 +47,11 @@ export default function SpotReview() {
                                 <ReviewDetails key={review.id} spot={review} />
                             ))}
                         </div>
+                        {showButton && user.id !== spotObj.ownerId &&
+                            <div className='create-review'>
+                                <ReviewButton spot={spotObj} />
+                            </div>
+                        }
                     </div>
                 </div>
             )}
