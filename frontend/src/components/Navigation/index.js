@@ -2,8 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import LoginFormModal from '../LoginFormModal';
-import SignUpFormModal from '../SignUpFormModal';
+import LoginSignUp from './LoginSignUp';
 import HostFormModal from '../HostFormModal';
 import './Navigation.css';
 
@@ -14,24 +13,19 @@ export default function Navigation() {
     let sessionLinks;
     if (sessionUser) {
         sessionLinks = (
-            <div>
-                <div className='logged-in-user-links'>
-                    <NavLink exact to='/hosting'>
-                        <button className='logged-in-hosting'>Switch to Hosting</button>
-                    </NavLink>
-                    <ProfileButton user={sessionUser} />
-                </div>
+            <div className='logged-in-user-links'>
+                <NavLink exact to='/hosting'>
+                    <button className='logged-in-hosting'>Switch to Hosting</button>
+                </NavLink>
+                <ProfileButton user={sessionUser} />
             </div>
         );
     } else {
         sessionLinks = (
-            <div>
-                <div className='user-links'>
-                    <HostFormModal />
-                    <SignUpFormModal />
-                    <LoginFormModal />
-                </div>
-            </div >
+            <div className='user-links'>
+                <HostFormModal />
+                <LoginSignUp />
+            </div>
         );
     }
 

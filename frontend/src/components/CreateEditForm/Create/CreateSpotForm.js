@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import * as spotActions from '../../store/spots'
+import React, { useState } from 'react'
+import * as spotActions from '../../../store/spots'
 import { useDispatch } from "react-redux";
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-export default function SpotForm({ spot, formType }) {
+export default function CreateSpotForm({ spot, formType }) {
     const dispatch = useDispatch()
     const history = useHistory()
     const [name, setName] = useState('')
@@ -100,7 +100,7 @@ export default function SpotForm({ spot, formType }) {
                     onChange={(e) => setImage(e.target.value)}
                 />
             </label> */}
-            <button type='submit' className='create-spot'>Create Listing</button>
+            <button type='submit' className='create-spot'>Launch Listing</button>
         </form>
     )
 }

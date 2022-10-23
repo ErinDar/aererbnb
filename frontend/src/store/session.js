@@ -29,7 +29,7 @@ export const login = (user) => async (dispatch) => {
     })
     const userInfo = await res.json()
     dispatch(loginUser(userInfo))
-    return res
+    return userInfo
 }
 
 // storing user info thunk action 

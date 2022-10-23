@@ -4,7 +4,7 @@ import * as spotActions from '../../../store/spots'
 
 export default function ListingCard({ spot }) {
     const dispatch = useDispatch()
-    console.log('spots', spot)
+
     const deleteSpot = (e) => {
         e.preventDefault()
         dispatch(spotActions.deleteSpots(spot.id))
@@ -13,7 +13,7 @@ export default function ListingCard({ spot }) {
     return (
         <div>
             <NavLink to={`/spots/${spot.id}`}>{spot.name}</NavLink>
-            <NavLink to='/my-listing-edit'>Edit Listing</NavLink>
+            <NavLink to={`/spots/${spot.id}/edit`}>Edit Listing</NavLink>
             <button onClick={deleteSpot}>Delete Listing</button>
         </div>
     )

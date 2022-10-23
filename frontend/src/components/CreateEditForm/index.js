@@ -1,12 +1,6 @@
-import { useSelector } from "react-redux";
-import { NavLink, useParams } from "react-router-dom";
-import CreateSpotForm from "./CreateSpotForm";
-import SpotForm from "./SpotForm";
+import { NavLink } from "react-router-dom";
 
 export default function CreateEditForm() {
-    const { spotId } = useParams
-    const spot = useSelector(state => state.spots.allSpots[spotId])
-
     return (
         <div className="listing-links">
             <div className="create-listing">
@@ -15,7 +9,7 @@ export default function CreateEditForm() {
                 </NavLink>
             </div>
             <div className="edit-listing">
-                <NavLink to='/my-listings/edit'>
+                <NavLink to='/my-listings'>
                     <button>Edit a Listing</button>
                 </NavLink>
             </div>

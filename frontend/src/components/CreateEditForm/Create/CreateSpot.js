@@ -1,6 +1,6 @@
-import SpotForm from "./SpotForm";
+import CreateSpotForm from "./CreateSpotForm"
 
-export default function CreateSpotForm() {
+export default function CreateSpot() {
     const spot = {
         name: '',
         address: '',
@@ -12,6 +12,6 @@ export default function CreateSpotForm() {
     }
 
     return (
-        <SpotForm spot={spot} formType="Create Listing" />
+        <CreateSpotForm spot={spot} formType="Create Listing" />
     )
 }

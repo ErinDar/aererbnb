@@ -10,13 +10,11 @@ export default function CreateSpotFormModal() {
             <div>
                 <button onClick={() => setShowModal(true)} className='hosting-button'>Become a Host</button>
             </div>
-            <div>
-                {showModal && (
-                    <Modal onClose={() => setShowModal(false)}>
-                        <HostLoginForm />
-                    </Modal>
-                )}
-            </div>
+            {showModal && (
+                <Modal onClose={() => setShowModal(false)}>
+                    <HostLoginForm />
+                </Modal>
+            )}
         </>
     )
 }

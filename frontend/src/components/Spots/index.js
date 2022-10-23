@@ -1,16 +1,17 @@
 import { useSelector } from 'react-redux'
 import SpotCard from '../SpotsCard'
+import './Spots.css'
 
 export default function Spots() {
     const spotsObj = useSelector(state => state.spots.allSpots)
-    console.log('spotsObj', spotsObj)
+
     let spots = []
     for (let spot in spotsObj) {
         spots.push(spotsObj[spot])
     }
 
     return (
-        <div>
+        <div className='spots-body'>
             {spots.map(spot => (
                 <SpotCard key={spot.id} spot={spot} />
             ))}

@@ -1,6 +1,29 @@
 .spots-body {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
     justify-content: space-between;
-    padding: 15px;
+    padding: 50px 120px 50px 120px;
+    gap: 50px;
+}
+
+.spot-image {
+    width: 400px;
+    height: 400px;
+}
+
+.spot-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    gap: 10px;
+}
+
+.spot-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+img {
+    border-radius: 15px;
 }

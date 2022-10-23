@@ -4,7 +4,9 @@ import SpotForm from "./SpotForm";
 
 export default function EditSpotForm() {
     const { spotId } = useParams()
-    const spot = useSelector(state => state.spots.singleSpot)
+    const spot = useSelector(state => state.spots.allSpots[spotId])
 
-
+    return (
+        <SpotForm spot={spot} formType="Update Listing" />
+    )
 }

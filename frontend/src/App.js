@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom'
-import SignUpFormModal from './components/SignUpFormModal';
 import * as spotActions from './store/spots'
 import * as sessionActions from './store/session'
 import Navigation from './components/Navigation'
 import Spots from './components/Spots'
 import SpotDetails from './components/SpotDetails';
 import SpotReview from './components/Reviews';
-import CreateSpotForm from './components/CreateEditForm/CreateSpotForm';
 import CreateEditForm from './components/CreateEditForm'
 import Listings from './components/UserInfo/UserListings';
+import CreateSpot from './components/CreateEditForm/Create/CreateSpot'
 
 function App() {
     const dispatch = useDispatch()
@@ -37,13 +36,13 @@ function App() {
                         <CreateEditForm />
                     </Route>
                     <Route exact path='/hosting/create'>
-                        <CreateSpotForm />
+                        <CreateSpot />
                     </Route>
                     <Route exact path='/my-listings'>
                         <Listings />
                     </Route>
-                    <Route exact path='/my-listings/edit'>
-
+                    <Route exact path='/spots/:spotId/edit'>
+                        {/* <EditSpotForm /> */}
                     </Route>
                 </Switch>
             )}

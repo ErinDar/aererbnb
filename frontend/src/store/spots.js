@@ -58,55 +58,65 @@ export const createSpot = (spot) => async (dispatch) => {
 
         })
     })
-    const spotInfo = await res.json()
-    dispatch(getSingleSpot(spotInfo))
-    return spotInfo
+    if (res.ok) {
+        const spotInfo = await res.json()
+        dispatch(getSingleSpot(spotInfo))
+        return spotInfo
+    }
 }
 //get spots thunk action
 export const getAllSpots = () => async (dispatch) => {
     const res = await csrfFetch('/api/spots')
-    const spots = await res.json()
-    dispatch(populateSpots(spots.Spots))
+    if (res.ok) {
+        const spots = await res.json()
+        dispatch(populateSpots(spots.Spots))
+        return spots
+    }
 }
 
 export const getSpot = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${id}`)
-    const spot = await res.json()
-    dispatch(getSingleSpot(spot))
+    if (res.ok) {
+        const spot = await res.json()
+        dispatch(getSingleSpot(spot))
+        return spot
+    }
 }
 
 export const getUserSpots = () => async (dispatch) => {
     const res = await csrfFetch('/api/spots/current')
-    const userSpots = await res.json()
-    dispatch(populateUserSpots(userSpots.Spots))
+    if (res.ok) {
+        const userSpots = await res.json()
+        dispatch(populateUserSpots(userSpots.Spots))
+        return userSpots
+    }
 }
 //edit spot thunk action
-// export const updateSpot = (spotId) => async (dispatch) => {
-//     const res = await csrfFetch(`/api/spots/${spotId}`, {
-//         method: 'PUT',
-//         body: JSON.stringify({
-//             name,
-//             address,
-//             city,
-//             state,
-//             country,
-//             description,
-//             price
-//         })
-//     })
-//     const spotInfo = await res.json()
-//     dispatch(getSingleSpot(spotInfo))
-//     return res
-// }
+export const updateSpot = (spot) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spot.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(spot)
+    })
+    if (res.ok) {
+        const spotInfo = await res.json()
+        dispatch(getSingleSpot(spotInfo))
+        return spotInfo
+    }
+}
 
 //delete spot thunk action
-export const deleteSpots = (spot) => async (dispatch) => {
-    const res = await csrfFetch(`/api/spots/${spot}`, {
+export const deleteSpots = (spotId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
         method: 'DELETE'
     })
-    const deletedSpot = res.json()
-    dispatch(deleteSpot(spot))
-    return deletedSpot
+    if (res.ok) {
+        const deletedSpot = res.json()
+        dispatch(deleteSpot(spotId))
+        return deletedSpot
+    }
 }
 const initialState = {
     allSpots: {},
@@ -116,9 +126,12 @@ const initialState = {
 
 export default function spotReducer(state = initialState, action) {
     let newState = {}
+    let allSpots = {}
+    let singleSpot = {}
+    let userSpots = {}
     switch (action.type) {
         case POPULATE_SPOTS:
-            const allSpots = {}
+            allSpots = {}
             action.spots.forEach(spot => {
                 allSpots[spot.id] = spot
             })
@@ -127,7 +140,7 @@ export default function spotReducer(state = initialState, action) {
                 allSpots: { ...allSpots }
             }
         case POPULATE_USER_SPOTS:
-            const userSpots = {}
+            userSpots = {}
             action.spots.forEach(spot => {
                 userSpots[spot.id] = spot
             })
@@ -136,18 +149,21 @@ export default function spotReducer(state = initialState, action) {
                 userSpots: { ...userSpots }
             }
         case GET_SPOT:
-            const singleSpot = { ...action.spot }
+            singleSpot = { ...action.spot }
             return {
                 ...state,
                 singleSpot: { ...singleSpot }
             }
         case DELETE_SPOT:
-            allSpots = { ...allSpots }
+            allSpots = { ...state.allSpots }
             singleSpot = {}
-            userSpots = { ...userSpots }
-            newState = { ...state, allSpots: { ...allSpots }, singleSpot: {}, userSpots: { ...userSpots } }
+            userSpots = { ...state.userSpots }
+            newState = { ...state }
+            newState.allSpots = allSpots
+            newState.userSpots = userSpots
             delete newState.allSpots[action.spot]
             delete newState.userSpots[action.spot]
+            return newState
         default:
             return state
     }

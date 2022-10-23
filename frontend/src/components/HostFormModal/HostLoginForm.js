@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as sessionActions from '../../store/session'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function HostLoginForm() {
     const dispatch = useDispatch()
     const history = useHistory()
+    let user = useSelector(state => state.session.user)
     const [password, setPassword] = useState('')
     const [credential, setCredential] = useState('')
     const [errors, setErrors] = useState([])
 
+    const redirect = () => {
+        return history.push('/hosting')
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
-        const sessionUser = dispatch(sessionActions.login({ credential, password }))
+        user = await dispatch(sessionActions.login({ credential, password }))
             .catch(async (res) => {
                 const loginErrors = await res.json()
                 if (loginErrors) {
@@ -21,7 +26,7 @@ export default function HostLoginForm() {
                     else setErrors([loginErrors.message])
                 }
             })
-        if (sessionUser !== null) history.push('/hosting')
+        if (user) return redirect()
     }
 
     return (
