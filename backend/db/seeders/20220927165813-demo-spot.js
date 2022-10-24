@@ -105,7 +105,7 @@ const spotListings = [
         state: "Texas",
         country: "USA",
         name: "Cabin in Grand Prairie",
-        descripiton: "Enjoy living as if you were living on the prairie",
+        description: "Enjoy living as if you were living on the prairie",
         price: 100
       }
     ]
