@@ -39,3 +39,8 @@ Sqlite3
 <img width="1247" alt="Screen Shot 2022-10-24 at 10 09 58" src="https://user-images.githubusercontent.com/102836435/197547270-20271190-7e86-498f-8a33-cd7353c3fd5c.png">
 
 ### Once logged in, if the user has left reviews on listings they will all populate on the profile page of the application. From here the user can delete the review and revist the listing to create a new one if they wish to.
+
+
+## Local Launching
+
+* Once the repo has been cloned down be sure to download all neccessary Node packages and locate the correct port or update to a port of your choice. 
