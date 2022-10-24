@@ -33,14 +33,16 @@ const validateCreation = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
-        .withMessage('Price per day is required'),
+        .isLength({ min: 90, max: 4000 })
+        .withMessage('Must be at least $90 per night'),
     handleValidationErrors
 ]
 
 const validateReview = [
     check('review')
         .exists({ checkFalsy: true })
-        .withMessage('Review text is required'),
+        .isLength({ min: 4, max: 50 })
+        .withMessage('Review text is required (min 4 characters)'),
     check('stars')
         .exists({ checkFalsy: true })
         .isLength({ min: 1, max: 5 })

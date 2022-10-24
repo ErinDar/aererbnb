@@ -4,7 +4,7 @@ const GET_SPOT = 'spots/getSingleSpot'
 const POPULATE_SPOTS = 'spots/populateSpots'
 const POPULATE_USER_SPOTS = 'spots/populateUserSpots'
 const ADD_IMAGE = 'spots/addImage'
-const EDIT_SPOT = 'spots/editSpot'
+// const EDIT_SPOT = 'spots/editSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
 
 

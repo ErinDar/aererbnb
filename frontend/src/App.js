@@ -11,6 +11,7 @@ import CreateEditForm from './components/CreateEditForm'
 import CreateSpot from './components/CreateEditForm/Create/CreateSpot'
 import Listings from './components/UserInfo/UserListings';
 import EditSpot from './components/CreateEditForm/Edit/EditSpot';
+import Reviews from './components/UserInfo/UserProfile';
 
 function App() {
     const dispatch = useDispatch()
@@ -46,7 +47,7 @@ function App() {
                         <EditSpot />
                     </Route>
                     <Route exact path='/profile'>
-
+                        <Reviews />
                     </Route>
                 </Switch>
             )}
