@@ -1,0 +1,107 @@
+.hosting-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: left;
+    padding: 20px;
+    width: 50%;
+    gap: 15px;
+}
+
+.listing-links {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+    gap: 100px;
+}
+
+
+.create-listing-header,
+.edit-listing-header {
+    padding: 30px;
+}
+
+.create-listing-link,
+.edit-listing-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    background-color: #D70040;
+    border-radius: 15px;
+    color: white;
+    font-size: 15px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    /* align-items: center;
+    justify-content: left; */
+}
+
+.form-container-smaller {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+
+.create-spot-form {
+    display: block;
+    width: 600px;
+}
+
+.form-input-values {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 10px;
+}
+
+.create-spot-submit-button {
+    display: flex;
+    padding: 20px;
+    justify-content: right;
+}
+
+.form-header {
+    padding: 20px;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listing-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    background-color: #D70040;
+    border-radius: 15px;
+    color: white;
+    font-size: 15px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+input {
+    /* border: none; */
+    font-size: 30px;
+    width: 500px;
+    border-color: #EAECEE;
+    border-width: 1px;
+}
+
+textarea {
+    width: 500px;
+    height: 200px;
+    border-color: #EAECEE;
+    font-size: 30px;
+}

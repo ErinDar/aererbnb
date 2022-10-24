@@ -71,7 +71,7 @@ const spotImages = [
     name: 'Tiny Home in Dallas',
     images: [
       {
-        url: 'https://res.cloudinary.com/doydiwq2g/image/upload/v1666598232/90_wxtikr.jpg',
+        url: 'https://res.cloudinary.com/doydiwq2g/image/upload/v1666602083/101-Ashmore-Drive-Leola-PA-print-104-256-LunaBannerSized-3105-4200x2807-300dpi-1_gmottc.jpg',
         preview: true
       }
     ]
@@ -80,7 +80,7 @@ const spotImages = [
     name: 'Campsite',
     images: [
       {
-        url: 'https://res.cloudinary.com/doydiwq2g/image/upload/v1666598497/eco-living-dome-tent-glamping-dome-house-for-campsite-resort-accommodation-geodesic-dome-hotel-in-forest-resorts-glitzcamp-starry-dome-igloo_cbhuct.jpg',
+        url: 'https://res.cloudinary.com/doydiwq2g/image/upload/v1666601945/glamping-igloo-tent-for-desert-resort-geodesic-dome-tent-hotel-for-luxury-camping-eco-living-domes-for-sale-geodome-tent-kit-for-desert-campsite-glitzcamp_f3fpc6.jpg',
         preview: true
       }
     ]

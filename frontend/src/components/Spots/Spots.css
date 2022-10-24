@@ -1,9 +1,17 @@
+.splash-page-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .spots-body {
     display: flex;
+    width: 100%;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 50px 120px 50px 120px;
+    align-items: center;
+    justify-content: left;
+    padding: 80px 0 80px 130px;
     gap: 50px;
 }
 

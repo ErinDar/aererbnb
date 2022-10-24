@@ -11,10 +11,12 @@ export default function Spots() {
     }
 
     return (
-        <div className='spots-body'>
-            {spots.map(spot => (
-                <SpotCard key={spot.id} spot={spot} />
-            ))}
+        <div className='splash-page-body'>
+            <div className='spots-body'>
+                {spots.map(spot => (
+                    <SpotCard key={spot.id} spot={spot} />
+                ))}
+            </div>
         </div>
     )
 }

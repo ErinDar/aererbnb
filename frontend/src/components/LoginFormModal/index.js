@@ -57,7 +57,7 @@ export default function LoginForm({ setShowLoginModal }) {
                         required
                     />
                 </label>
-                <div className='submit-button'>
+                <div className='submit-button-div'>
                     <button type='submit' className='login-submit-button'>Log In</button>
                 </div>
             </form>

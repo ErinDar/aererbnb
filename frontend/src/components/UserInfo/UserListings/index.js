@@ -19,10 +19,15 @@ export default function Listings() {
     }, [dispatch])
 
     return (
-        <div className="listing-container">
-            {spotsArr.map(spot => (
-                <ListingCard key={spot.id} spot={spot} />
-            ))}
+        <div className="listings-body">
+            <div className="listing-title">
+                <h1>Active Listings</h1>
+            </div>
+            <div className="listing-container">
+                {spotsArr.map(spot => (
+                    <ListingCard key={spot.id} spot={spot} />
+                ))}
+            </div>
         </div>
     )
 }

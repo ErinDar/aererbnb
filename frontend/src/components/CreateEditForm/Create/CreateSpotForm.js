@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import * as spotActions from '../../../store/spots'
 import { useDispatch } from "react-redux";
 import { NavLink, useHistory } from 'react-router-dom';
+import '../CreateEditForm.css'
 
 export default function CreateSpotForm({ spot }) {
     const dispatch = useDispatch()
@@ -12,7 +13,7 @@ export default function CreateSpotForm({ spot }) {
     const [state, setState] = useState('')
     const [country, setCountry] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState(90)
     const [imageUrl, setImageUrl] = useState('')
     const [errors, setErrors] = useState([])
 
@@ -46,91 +47,115 @@ export default function CreateSpotForm({ spot }) {
     }
 
     return (
-        <div>
-            <h2>Tell Us About Your Listing</h2>
-            <NavLink to='/'>Go Back Home</NavLink>
-            <form onSubmit={handleSubmit}>
-                <ul>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                <label>
-                    Listing Name
-                    <input
-                        type='text'
-                        placeholder='Cozy Cabin Getaway...'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </label>
-                <label>
-                    Listing Street Address
-                    <input
-                        type='text'
-                        placeholder='123 Main Ave.'
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                    />
-                </label>
-                <label>
-                    Listing City
-                    <input
-                        type='text'
-                        placeholder='Denver'
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                    />
-                </label>
-                <label>
-                    Listing State
-                    <input
-                        type='text'
-                        placeholder='Colorado'
-                        value={state}
-                        onChange={(e) => setState(e.target.value)}
-                    />
-                </label>
-                <label>
-                    Listing Country
-                    <input
-                        type='text'
-                        placeholder='USA'
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
-                    />
-                </label>
-                <label>
-                    Listing Description
-                    <textarea
-                        placeholder='Escape to this newly renovated....'
-                        minLength={10}
-                        maxLength={255}
-                        style={{ resize: 'none' }}
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </label>
-                <h3>Don't forget to show off your spot!</h3>
-                <label>
-                    Listing Images
-                    <input
-                        type='url'
-                        placeholder='www.image.com/image.jpg'
-                        value={imageUrl}
-                        onChange={(e) => setImageUrl(e.target.value)}
-                        required
-                    />
-                </label>
-                <h3>Here's the best part</h3>
-                <label>
-                    Listing Price
-                    <input
-                        type='number'
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                    />
-                </label>
-                <button type='submit' className='create-spot'>Launch Listing</button>
-            </form>
+        <div className='form-container'>
+            <div className='form-header'>
+                <h1>Tell Us About Your Listing</h1>
+            </div>
+            <div className='form-container-smaller'>
+                <form onSubmit={handleSubmit} className='create-spot-form'>
+                    <ul>
+                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    </ul>
+                    <div className='form-input-values'>
+                        <h3>Listing Name</h3>
+                        <input
+                            type='text'
+                            placeholder='Cozy Cabin Getaway...'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Street Address
+                        </h3>
+                        <input
+                            type='text'
+                            placeholder='123 Main Ave.'
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing City
+                        </h3>
+                        <input
+                            type='text'
+                            placeholder='Denver'
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing State
+                        </h3>
+                        <input
+                            type='text'
+                            placeholder='Colorado'
+                            value={state}
+                            onChange={(e) => setState(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Country
+                        </h3>
+                        <input
+                            type='text'
+                            placeholder='USA'
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Description
+                        </h3>
+                        <textarea
+                            placeholder='Escape to this newly renovated....'
+                            minLength={10}
+                            maxLength={255}
+                            style={{ resize: 'none' }}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Images
+                        </h3>
+                        <input
+                            type='url'
+                            placeholder='www.image.com/image.jpg'
+                            value={imageUrl}
+                            onChange={(e) => setImageUrl(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Price
+                        </h3>
+                        <input
+                            type='number'
+                            value={price}
+                            min={90}
+                            max={4000}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </div>
+                    <div className='form-footer'>
+                        <div className='cancel-create-link'>
+                            <NavLink to='/my-listings'>Go Back My Listings</NavLink>
+                        </div>
+                        <div className='create-spot-submit-button'>
+                            <button type='submit' className='listing-button'>Launch Listing</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }

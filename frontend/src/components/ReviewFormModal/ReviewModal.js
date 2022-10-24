@@ -8,7 +8,7 @@ export default function CreateReview(spotObj) {
     const dispatch = useDispatch()
     const history = useHistory()
     const [review, setReview] = useState('')
-    const [rating, setRating] = useState(0)
+    const [rating, setRating] = useState(1)
     const [errors, setErrors] = useState([])
 
     const redirect = () => {
@@ -43,32 +43,39 @@ export default function CreateReview(spotObj) {
                 <i className="fa-solid fa-xmark"></i>
             </div>
             <header className='modal-header'>
-                <div className='modal-title'>
-                    <div>
-                        Say something nice!
-                    </div>
+                <div className='modal-title' >
+                    <h2>Say Something Nice!</h2>
                 </div>
             </header>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="review-form">
                 <ul className="error-messages">
                     {errors.map((error, idx) => <li key={idx}>{error}</li>)}
                 </ul>
-                <label>
-                    Review
+                <div className="review-content">
+                    <label>
+                        Review
+                    </label>
                     <textarea
                         value={review}
+                        placeholder="Did you enjoy your stay?"
                         onChange={(e) => setReview(e.target.value)}
                     />
-                </label>
-                <label>
-                    Rating Scale (1-5)
+                </div>
+                <div className="review-rating">
+                    <label>
+                        Rating Scale (1-5)
+                    </label>
                     <input
                         type='number'
+                        min={1}
+                        max={5}
                         value={rating}
                         onChange={(e) => setRating(e.target.value)}
                     />
-                </label>
-                <button type='submit'>Submit Review</button>
+                </div>
+                <div className="form-submit-button">
+                    <button type='submit' className="submit-review-button">Submit Review</button>
+                </div>
             </form>
         </div>
     )

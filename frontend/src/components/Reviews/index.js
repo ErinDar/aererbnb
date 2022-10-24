@@ -48,11 +48,13 @@ export default function SpotReview() {
                                 <ReviewDetails key={review.id} spot={review} />
                             ))}
                         </div>
-                        {showButton && user.id !== spotObj.ownerId &&
-                            <div className='create-review'>
-                                <button onClick={() => setShowModal(true)}>Leave a Review</button>
-                            </div>
-                        }
+                        <div className="create-review-button-div">
+                            {showButton && user.id !== spotObj.ownerId &&
+                                <div className='create-review'>
+                                    <button onClick={() => setShowModal(true)}>Leave a Review</button>
+                                </div>
+                            }
+                        </div>
                     </div>
                     {showModal && (
                         <Modal onClose={() => setShowModal(false)}>

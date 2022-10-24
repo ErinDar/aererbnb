@@ -12,9 +12,16 @@ export default function ListingCard({ spot }) {
 
     return (
         <div>
-            <NavLink to={`/spots/${spot.id}`}>{spot.name}</NavLink>
-            <NavLink to={`/spots/${spot.id}/edit`}>Edit Listing</NavLink>
-            <button onClick={deleteSpot}>Delete Listing</button>
+            <div className="listing-info">
+                <div>{spot.name}</div>
+                <NavLink to={`/spots/${spot.id}`}>
+                    <img src={spot.previewImage} alt={spot.name} width='200px' height='200px'></img>
+                </NavLink>
+            </div>
+            <div className="listing-actions">
+                <NavLink to={`/spots/${spot.id}/edit`}>Edit Listing</NavLink>
+                <button onClick={deleteSpot}>Delete Listing</button>
+            </div>
         </div>
     )
 }

@@ -8,7 +8,9 @@
     height: 80px;
     z-index: 10;
     contain: size style layout;
-    border-bottom: solid #EAECEE
+    border-bottom: solid #EAECEE;
+    padding-left: 80px;
+    padding-right: 80px;
 }
 
 .nav-elements {
