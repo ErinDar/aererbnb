@@ -13,7 +13,7 @@ export default function CreateSpotForm({ spot }) {
     const [state, setState] = useState('')
     const [country, setCountry] = useState('')
     const [description, setDescription] = useState('')
-    const [price, setPrice] = useState(90)
+    const [price, setPrice] = useState(0)
     const [imageUrl, setImageUrl] = useState('')
     const [errors, setErrors] = useState([])
 
@@ -53,8 +53,8 @@ export default function CreateSpotForm({ spot }) {
             </div>
             <div className='form-container-smaller'>
                 <form onSubmit={handleSubmit} className='create-spot-form'>
-                    <ul>
-                        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    <ul className='error-messages' style={{ listStyleType: 'none' }}>
+                        {errors.map((error, idx) => <li key={idx} className='errors'>*{error}</li>)}
                     </ul>
                     <div className='form-input-values'>
                         <h3>Listing Name</h3>

@@ -1,0 +1,61 @@
+.listings-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.listing-title {
+    display: flex;
+    padding: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.listing-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: center;
+    padding: 80px 0 80px 130px;
+    gap: 50px;
+}
+
+.listing-info-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.listing-info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.listing-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.listing-actions>button,
+.edit-listing-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    background-color: #D70040;
+    border-radius: 15px;
+    color: white;
+    font-size: 15px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.review-info {
+    width: 400px;
+    padding: 20px 0 20px 0;
+}

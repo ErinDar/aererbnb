@@ -25,7 +25,7 @@ const validateCreation = [
     // check('lng')
     //     .exists({ checkFalsy: true })
     //     .withMessage('Longitude is not valid'),
-    check('name', 'Name must be less than 50 character')
+    check('name', 'Name required (must be less than 50 characters)')
         .exists({ checkFalsy: true })
         .isLength({ max: 50 }),
     check('description')
@@ -33,8 +33,7 @@ const validateCreation = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
-        .isLength({ min: 90, max: 4000 })
-        .withMessage('Must be at least $90 per night'),
+        .withMessage('Must enter a price '),
     handleValidationErrors
 ]
 

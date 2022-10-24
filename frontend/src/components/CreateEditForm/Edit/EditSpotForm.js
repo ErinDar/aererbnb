@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import * as spotActions from '../../../store/spots'
 import { useDispatch } from "react-redux";
-import { useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 
 export default function EditSpotForm({ spot, formType }) {
     const dispatch = useDispatch()
@@ -58,67 +58,95 @@ export default function EditSpotForm({ spot, formType }) {
     // }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>{formType}</h2>
-            <ul>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                Listing Name
-                <input
-                    type='text'
-                    value={name}
-                    onChange={updateName}
-                />
-            </label>
-            <label>
-                Listing Street Address
-                <input
-                    type='text'
-                    value={address}
-                    onChange={updateAddress}
-                />
-            </label>
-            <label>
-                Listing City
-                <input
-                    type='text'
-                    value={city}
-                    onChange={updateCity}
-                />
-            </label>
-            <label>
-                Listing State
-                <input
-                    type='text'
-                    value={state}
-                    onChange={updateState}
-                />
-            </label>
-            <label>
-                Listing Country
-                <input
-                    type='text'
-                    value={country}
-                    onChange={updateCountry}
-                />
-            </label>
-            <label>
-                Listing Description
-                <textarea
-                    value={description}
-                    onChange={updateDescription}
-                />
-            </label>
-            <label>
-                Listing Price
-                <input
-                    type='number'
-                    value={price}
-                    onChange={updatePrice}
-                />
-            </label>
-            <button type='submit' className='create-spot'>Update Listing</button>
-        </form>
+        <div className='form-container'>
+            <div className='form-header'>
+                <h1>Update {spot.name}</h1>
+            </div>
+            <div className='form-container-smaller'>
+                <form onSubmit={handleSubmit}>
+                    <ul className='error-messages' style={{ listStyleType: 'none' }}>
+                        {errors.map((error, idx) => <li key={idx} className='errors'>*{error}</li>)}
+                    </ul>
+                    <div className='form-input-values'>
+                        <h3>Listing Name</h3>
+                        <input
+                            type='text'
+                            value={name}
+                            onChange={updateName}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>Listing Street Address</h3>
+                        <input
+                            type='text'
+                            value={address}
+                            onChange={updateAddress}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing City
+                        </h3>
+                        <input
+                            type='text'
+                            value={city}
+                            onChange={updateCity}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing State
+                        </h3>
+                        <input
+                            type='text'
+                            value={state}
+                            onChange={updateState}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Country
+                        </h3>
+                        <input
+                            type='text'
+                            value={country}
+                            onChange={updateCountry}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Description
+                        </h3>
+                        <textarea
+                            minLength={10}
+                            maxLength={255}
+                            style={{ resize: 'none' }}
+                            value={description}
+                            onChange={updateDescription}
+                        />
+                    </div>
+                    <div className='form-input-values'>
+                        <h3>
+                            Listing Price
+                        </h3>
+                        <input
+                            type='number'
+                            value={price}
+                            min={90}
+                            max={4000}
+                            onChange={updatePrice}
+                        />
+                    </div>
+                    <div className='form-footer'>
+                        <div className='cancel-create-link'>
+                            <NavLink to='/'>Go back home</NavLink>
+                        </div>
+                        <div className='create-spot-submit-button'>
+                            <button type='submit' className='listing-button'>Update Listing</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div >
     )
 }

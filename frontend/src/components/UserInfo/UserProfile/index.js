@@ -19,10 +19,15 @@ export default function Reviews() {
     }, [])
 
     return (
-        <div>
-            {reviewArr.map(review => (
-                <ReviewCard key={review.id} review={review} />
-            ))}
-        </div>
+        <div className="listings-body">
+            <div className="listing-title">
+                <h1>Current Reviews</h1>
+            </div>
+            <div className="listing-container">
+                {reviewArr.map(review => (
+                    <ReviewCard key={review.id} review={review} />
+                ))}
+            </div>
+        </div >
     )
 }

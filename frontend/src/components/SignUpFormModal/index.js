@@ -41,7 +41,7 @@ export default function SignupForm({ setShowSignUpModal }) {
             </header>
             <form onSubmit={handleSubmit}>
                 <ul className='error-messages'>
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                    {errors.map((error, idx) => <li key={idx} className='errors'>*{error}</li>)}
                 </ul>
                 <label>
                     First Name
