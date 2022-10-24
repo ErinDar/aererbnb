@@ -7,21 +7,21 @@ const review = require('../models/review');
 const spotReview = [
   {
     username: 'Skylee',
-    name: 'Holmes Residence',
+    name: 'Tower in Pittsburg',
     reviews: [
       {
-        review: 'This was the best experience. Even solved a case',
+        review: 'Was an amazing trip! Demo is an awesome host!',
         stars: 5
       }
     ]
   },
   {
     username: 'Demo-lition',
-    name: 'Murder House',
+    name: 'Seinfeld',
     reviews: [
       {
-        review: "Haven't seen my sister since day 1 but I really enjoyed my stay",
-        stars: 4
+        review: "Was a bit pricey for the size but they said they filmed Seinfeld here so.",
+        stars: 3
       }
     ]
   },
@@ -30,7 +30,7 @@ const spotReview = [
     name: 'Wayne Manor',
     reviews: [
       {
-        review: 'Was hard to find but once I got there it was awesome',
+        review: 'Might book again. Was nice to have a wait staff on hand.',
         stars: 4
       }
     ]
@@ -42,6 +42,66 @@ const spotReview = [
       {
         review: "I should have heeded the warning before booking",
         stars: 1
+      }
+    ]
+  },
+  {
+    username: 'Ezzzy',
+    name: "Murder House",
+    reviews: [
+      {
+        review: "Never saw my sister again after the second day. Can't leave less than 1 star but I would if I could. Sister if you see this please come back home!",
+        stars: 1
+      }
+    ]
+  },
+  {
+    username: 'FakeUser1',
+    name: "Tiny Cabin",
+    reviews: [
+      {
+        review: "Nice to spend time in a space with minimal clutter for awhile.",
+        stars: 5
+      }
+    ]
+  },
+  {
+    username: 'FakeUser1',
+    name: "Cottage in Lexington",
+    reviews: [
+      {
+        review: "Nice cute space to just getaway for awhile and do nothing.",
+        stars: 5
+      }
+    ]
+  },
+  {
+    username: 'Mikey',
+    name: "Cottage in Lexington",
+    reviews: [
+      {
+        review: "My girlfriend really likes this place. May come back for a special occasion. ",
+        stars: 4
+      }
+    ]
+  },
+  {
+    username: 'FakeUser2',
+    name: "Seinfeld",
+    reviews: [
+      {
+        review: "After staying here I will book a hotel next time. ",
+        stars: 2
+      }
+    ]
+  },
+  {
+    username: 'Demo-lition',
+    name: "Black Widow",
+    reviews: [
+      {
+        review: "This listing has me seriously considering rebuilding my entire house.",
+        stars: 5
       }
     ]
   }
