@@ -78,7 +78,7 @@ const spotListings = [
         state: "Texas",
         country: "USA",
         name: "Tiny Home in Dallas",
-        descripiton: "Clean, Zen modern backyard cottage, easy access to SXSW, convention center, great dining, and public transportation. Gorgeous, peaceful space, close to the action but perfect for rest and recharging. Easy access to SXSW, ACL, F1 and all festivals.",
+        description: "Clean, Zen modern backyard cottage, easy access to SXSW, convention center, great dining, and public transportation. Gorgeous, peaceful space, close to the action but perfect for rest and recharging. Easy access to SXSW, ACL, F1 and all festivals.",
         price: 350
       },
       {
@@ -87,7 +87,7 @@ const spotListings = [
         state: "Texas",
         country: "USA",
         name: "Campsite",
-        descripiton: "A unique, heart-throbbing ADULTS-only eco-Glamping resort in Houston.",
+        description: "A unique, heart-throbbing ADULTS-only eco-Glamping resort in Houston.",
         price: 275
       },
       {
@@ -96,7 +96,7 @@ const spotListings = [
         state: "Texas",
         country: "USA",
         name: "Barn House",
-        descripiton: "All the comforts of home accentuated with designer bed linens and an expansive living area. Outside enjoy a 360 view of the countryside. This ain't your grand daddy's barn!",
+        description: "All the comforts of home accentuated with designer bed linens and an expansive living area. Outside enjoy a 360 view of the countryside. This ain't your grand daddy's barn!",
         price: 180
       },
       {
@@ -130,7 +130,7 @@ const spotListings = [
         state: "New York",
         country: "USA",
         name: "Kettle House",
-        descripiton: "Enjoy this newly renovated 1960's home originally built as a steel storage tank. This home has foam insulation and central AC for ultimate comfort.",
+        description: "Enjoy this newly renovated 1960's home originally built as a steel storage tank. This home has foam insulation and central AC for ultimate comfort.",
         price: 1350
       },
       {
@@ -139,7 +139,7 @@ const spotListings = [
         state: "New York",
         country: "USA",
         name: "Brooklyn Townhouse",
-        descripiton: "This stunning, spacious, newly renovated two-bedroom apartment with incredible outdoor space located in the heart of Brooklyn on a tree-lined block.",
+        description: "This stunning, spacious, newly renovated two-bedroom apartment with incredible outdoor space located in the heart of Brooklyn on a tree-lined block.",
         price: 450
       },
       {
@@ -148,7 +148,7 @@ const spotListings = [
         state: "New York",
         country: "USA",
         name: "Tiny Home in Corona",
-        descripiton: "Step from the upstairs suite to the well-lit rooftop deck for an evening cocktail. A fusion of 2 shipping containers, 20' and 40', the interior of this unique home is insulated and paneled in pine shiplap and trimmed in 100+ year old barn wood.",
+        description: "Step from the upstairs suite to the well-lit rooftop deck for an evening cocktail. A fusion of 2 shipping containers, 20' and 40', the interior of this unique home is insulated and paneled in pine shiplap and trimmed in 100+ year old barn wood.",
         price: 140
       },
       {
@@ -157,7 +157,7 @@ const spotListings = [
         state: "New York",
         country: "USA",
         name: "Treehouse",
-        descripiton: "Brand new, luxurious, pond-side treehouse in the woods.  It is the ideal place to spend your honeymoon or a romantic getaway with your love.",
+        description: "Brand new, luxurious, pond-side treehouse in the woods.  It is the ideal place to spend your honeymoon or a romantic getaway with your love.",
         price: 150
       }
     ]
