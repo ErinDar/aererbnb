@@ -12,6 +12,6 @@ export default function CreateSpot() {
     }
 
     return (
-        <CreateSpotForm spot={spot} formType="Create Listing" />
+        <CreateSpotForm spot={spot} />
     )
 }

@@ -54,12 +54,12 @@ export default function LoginSignUp() {
             </div>
             {showLoginModal && (
                 <Modal onClose={() => setShowLoginModal(false)}>
-                    <LoginForm />
+                    <LoginForm setShowLoginModal={setShowLoginModal} />
                 </Modal>
             )}
             {showSignUpModal && (
                 <Modal onClose={() => setShowSignUpModal(false)}>
-                    <SignupForm />
+                    <SignupForm setShowSignUpModal={setShowSignUpModal} />
                 </Modal>
             )}
         </div>

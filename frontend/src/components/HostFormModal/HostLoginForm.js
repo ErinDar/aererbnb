@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 import * as sessionActions from '../../store/session'
 import { useDispatch, useSelector } from 'react-redux'
 
-export default function HostLoginForm() {
+export default function HostLoginForm({ setShowModal }) {
     const dispatch = useDispatch()
     const history = useHistory()
     let user = useSelector(state => state.session.user)
@@ -12,6 +12,7 @@ export default function HostLoginForm() {
     const [errors, setErrors] = useState([])
 
     const redirect = () => {
+        setShowModal(false)
         return history.push('/hosting')
     }
 
@@ -30,31 +31,43 @@ export default function HostLoginForm() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ul className='error-messages'>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                Username or Email
-                <input
-                    type="text"
-                    value={credential}
-                    onChange={(e) => setCredential(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                Password
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </label>
-            <div className='submit-button'>
-                <button type='submit' className='login-submit-button'>Log In</button>
+        <div>
+            <div onClick={() => setShowModal(false)} className='exit-button'>
+                <i className="fa-solid fa-xmark"></i>
             </div>
-        </form>
+            <header className='modal-header'>
+                <div className='modal-title'>
+                    <div>
+                        Log In, Start Hosting!
+                    </div>
+                </div>
+            </header>
+            <form onSubmit={handleSubmit}>
+                <ul className='error-messages'>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <label>
+                    Username or Email
+                    <input
+                        type="text"
+                        value={credential}
+                        onChange={(e) => setCredential(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Password
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </label>
+                <div className='submit-button'>
+                    <button type='submit' className='login-submit-button'>Log In</button>
+                </div>
+            </form>
+        </div>
     )
 }

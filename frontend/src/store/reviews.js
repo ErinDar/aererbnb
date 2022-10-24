@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const POPULATE_REVIEWS = 'reviews/getReviews'
 const NEW_REVIEW = 'reviews/newReview'
+const USER_REVIEWS = 'reviews/userReviews'
 const EDIT_REVIEWS = 'reviews/editReviews'
 const DELETE_REVIEWS = 'reviews/deleteReviews'
 
@@ -12,11 +13,15 @@ const populateReviews = (reviews) => {
     }
 }
 
-const newReview = (review) => {
-    return {
-        type: NEW_REVIEW,
-        review
-    }
+// const newReview = (review) => {
+//     return {
+//         type: NEW_REVIEW,
+//         review
+//     }
+// }
+
+const userReviews = (user) => async (dispatch) => {
+
 }
 export const loadReviews = (id) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${id}/reviews`)

@@ -8,8 +8,9 @@ import Spots from './components/Spots'
 import SpotDetails from './components/SpotDetails';
 import SpotReview from './components/Reviews';
 import CreateEditForm from './components/CreateEditForm'
-import Listings from './components/UserInfo/UserListings';
 import CreateSpot from './components/CreateEditForm/Create/CreateSpot'
+import Listings from './components/UserInfo/UserListings';
+import EditSpot from './components/CreateEditForm/Edit/EditSpot';
 
 function App() {
     const dispatch = useDispatch()
@@ -42,7 +43,10 @@ function App() {
                         <Listings />
                     </Route>
                     <Route exact path='/spots/:spotId/edit'>
-                        {/* <EditSpotForm /> */}
+                        <EditSpot />
+                    </Route>
+                    <Route exact path='/profile'>
+
                     </Route>
                 </Switch>
             )}

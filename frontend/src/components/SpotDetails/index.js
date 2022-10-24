@@ -13,6 +13,7 @@ export default function SpotDetails() {
 
     useEffect(() => {
         dispatch(spotActions.getSpot(spotId))
+            .then(() => dispatch(spotActions.getAllSpots()))
             .then(() => setIsLoaded(true))
     }, [dispatch, isLoaded])
 

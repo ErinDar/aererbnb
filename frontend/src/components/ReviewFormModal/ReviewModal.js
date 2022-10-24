@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as reviewActions from "../../store/reviews";
 import * as spotActions from '../../store/spots'
@@ -22,7 +22,7 @@ export default function CreateReview(spotObj) {
             review: review,
             stars: rating
         }
-        await dispatch(reviewActions.createReview(spotObj.spotId, reviewInfo))
+        const fetchDone = await dispatch(reviewActions.createReview(spotObj.spotId, reviewInfo))
             .catch(async (res) => {
                 const reviewErrors = await res.json()
                 if (reviewErrors) {
@@ -30,33 +30,46 @@ export default function CreateReview(spotObj) {
                     else setErrors([reviewErrors.message])
                 }
             })
-        await dispatch(spotActions.getAllSpots())
-            // dispatch(spotActions.getSpot(spotObj.spotId))
-            .then(() => spotObj.setShowModal(false))
-            .then(() => redirect())
+        if (fetchDone) {
+            await dispatch(spotActions.getAllSpots())
+                .then(() => spotObj.setShowModal(false))
+                .then(() => redirect())
+        }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ul className="error-messages">
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                Review
-                <textarea
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                />
-            </label>
-            <label>
-                Rating Scale (1-5)
-                <input
-                    type='number'
-                    value={rating}
-                    onChange={(e) => setRating(e.target.value)}
-                />
-            </label>
-            <button type='submit'>Submit Review</button>
-        </form>
+        <div>
+            <div onClick={() => spotObj.setShowModal(false)} className='exit-button'>
+                <i className="fa-solid fa-xmark"></i>
+            </div>
+            <header className='modal-header'>
+                <div className='modal-title'>
+                    <div>
+                        Say something nice!
+                    </div>
+                </div>
+            </header>
+            <form onSubmit={handleSubmit}>
+                <ul className="error-messages">
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <label>
+                    Review
+                    <textarea
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                    />
+                </label>
+                <label>
+                    Rating Scale (1-5)
+                    <input
+                        type='number'
+                        value={rating}
+                        onChange={(e) => setRating(e.target.value)}
+                    />
+                </label>
+                <button type='submit'>Submit Review</button>
+            </form>
+        </div>
     )
 }

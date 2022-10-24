@@ -3,16 +3,16 @@ import * as sessionActions from '../../store/session'
 import { useDispatch } from 'react-redux'
 import './LoginForm.css'
 
-export default function LoginForm() {
+export default function LoginForm({ setShowLoginModal }) {
     const dispatch = useDispatch()
     const [password, setPassword] = useState('')
     const [credential, setCredential] = useState('')
     const [errors, setErrors] = useState([])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
-        return dispatch(sessionActions.login({ credential, password }))
+        const fetchDone = await dispatch(sessionActions.login({ credential, password }))
             .catch(async (res) => {
                 const loginErrors = await res.json()
                 if (loginErrors) {
@@ -20,34 +20,47 @@ export default function LoginForm() {
                     else setErrors([loginErrors.message])
                 }
             })
+        if (fetchDone) setShowLoginModal(false)
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <ul className='error-messages'>
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            <label>
-                Username or Email
-                <input
-                    type="text"
-                    value={credential}
-                    onChange={(e) => setCredential(e.target.value)}
-                    required
-                />
-            </label>
-            <label>
-                Password
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </label>
-            <div className='submit-button'>
-                <button type='submit' className='login-submit-button'>Log In</button>
+        <div>
+            <div onClick={() => setShowLoginModal(false)} className='exit-button'>
+                <i className="fa-solid fa-xmark"></i>
             </div>
-        </form>
+            <header className='modal-header'>
+                <div className='modal-title'>
+                    <div>
+                        Log In
+                    </div>
+                </div>
+            </header>
+            <form onSubmit={handleSubmit}>
+                <ul className='error-messages'>
+                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <label>
+                    Username or Email
+                    <input
+                        type="text"
+                        value={credential}
+                        onChange={(e) => setCredential(e.target.value)}
+                        required
+                    />
+                </label>
+                <label>
+                    Password
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </label>
+                <div className='submit-button'>
+                    <button type='submit' className='login-submit-button'>Log In</button>
+                </div>
+            </form>
+        </div>
     )
 }

@@ -4,6 +4,8 @@ import HostLoginForm from './HostLoginForm';
 
 export default function CreateSpotFormModal() {
     const [showModal, setShowModal] = useState(false)
+    // const [showLoginModal, setShowLoginModal] = useState(false)
+    // const [showSignUpModal, setShowSignUpModal] = useState(false)
 
     return (
         <>
@@ -12,7 +14,14 @@ export default function CreateSpotFormModal() {
             </div>
             {showModal && (
                 <Modal onClose={() => setShowModal(false)}>
-                    <HostLoginForm />
+                    {/* figuring out a way to toggle between signup and login when clicking become a host */}
+                    {/* <div>
+                        <button className='login-submit-button'>Log In</button>
+                    </div>
+                    <div>
+                        <button className='login-submit-button'>Sign Up</button>
+                    </div> */}
+                    <HostLoginForm setShowModal={setShowModal} />
                 </Modal>
             )}
         </>

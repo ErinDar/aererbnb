@@ -29,16 +29,17 @@ export function Modal({ onClose, children }) {
         <div id="modal">
             <div id="modal-background" onClick={onClose} />
             <div id="modal-content">
-                <div onClick={onClose} className='exit-button'>
+                {/* move code to individual modals */}
+                {/* <div onClick={onClose} className='exit-button'>
                     <i className="fa-solid fa-xmark"></i>
-                </div>
-                <header className='modal-header'>
+                </div> */}
+                {/* <header className='modal-header'>
                     <div className='modal-title'>
                         <div>
                             Log In or Sign Up
                         </div>
                     </div>
-                </header>
+                </header> */}
                 {children}
             </div>
         </div>,

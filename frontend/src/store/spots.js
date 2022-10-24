@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf"
 const GET_SPOT = 'spots/getSingleSpot'
 const POPULATE_SPOTS = 'spots/populateSpots'
 const POPULATE_USER_SPOTS = 'spots/populateUserSpots'
+const ADD_IMAGE = 'spots/addImage'
 const EDIT_SPOT = 'spots/editSpot'
 const DELETE_SPOT = 'spots/deleteSpot'
 
@@ -28,6 +29,12 @@ const getSingleSpot = (spot) => {
     }
 }
 
+const addImage = (imageInfo) => {
+    return {
+        type: ADD_IMAGE,
+        imageInfo
+    }
+}
 // edit spot action
 // const editSpot = (spot) => {
 //     return {
@@ -62,6 +69,18 @@ export const createSpot = (spot) => async (dispatch) => {
         const spotInfo = await res.json()
         dispatch(getSingleSpot(spotInfo))
         return spotInfo
+    }
+}
+
+export const addSpotImage = (spotId, imgInfo) => async (dispatch) => {
+    const res = await csrfFetch(`/api/spots/${spotId}/images`, {
+        method: 'POST',
+        body: JSON.stringify(imgInfo)
+    })
+    if (res.ok) {
+        const image = await res.json()
+        dispatch(addImage(image))
+        return image
     }
 }
 //get spots thunk action
@@ -150,6 +169,12 @@ export default function spotReducer(state = initialState, action) {
             }
         case GET_SPOT:
             singleSpot = { ...action.spot }
+            return {
+                ...state,
+                singleSpot: { ...singleSpot }
+            }
+        case ADD_IMAGE:
+            singleSpot = { ...state.singleSpot, SpotImages: [action.image] }
             return {
                 ...state,
                 singleSpot: { ...singleSpot }

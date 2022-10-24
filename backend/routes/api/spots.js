@@ -199,7 +199,11 @@ router.get('/', validateQuery, async (req, res, next) => {
 
         let avgRating = totalStars / spot.Reviews.length
 
-        spot.dataValues.avgRating = avgRating
+        if (Number.isNaN(avgRating)) {
+            spot.dataValues.avgRating = 0
+        } else {
+            spot.dataValues.avgRating = avgRating.toFixed(2)
+        }
 
         for (let image of spot.SpotImages) {
             if (!spot.dataValues.previewImage) {
