@@ -6,7 +6,7 @@ const { Op } = require('sequelize');
 
 const images = [
   {
-    username: 'Demo-lition',
+    username: 'Ezzzy',
     name: 'Murder House',
     reviewUrl: [
       {
